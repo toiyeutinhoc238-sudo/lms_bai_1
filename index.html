@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cổng Học Liệu Trực Tuyến LMS - Tin học 6: Bài 1</title>
+  <title>Cổng Trọn Bộ Học Liệu Tin Học 6: Bài 1 (Tiết 1 LMS & Tiết 2 Trực Tiếp)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #4f46e5;
-      --primary-dark: #3730a3;
-      --accent: #06b6d4;
+      --primary: #4338ca;
+      --primary-light: #6366f1;
+      --primary-dark: #312e81;
+      --accent: #0ea5e9;
       --bg: #f8fafc;
       --card: #ffffff;
       --text: #0f172a;
@@ -23,7 +25,7 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Nunito', sans-serif;
+      font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
     body {
@@ -34,41 +36,95 @@
     }
 
     .container {
-      max-width: 1100px;
+      max-width: 1200px;
       margin: 0 auto;
     }
 
     header {
-      background: linear-gradient(135deg, #3730a3, #4f46e5);
+      background: linear-gradient(135deg, #1e1b4b 0%, #3730a3 50%, #4338ca 100%);
       color: white;
-      padding: 28px;
+      padding: 32px;
       border-radius: var(--radius);
-      box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.25);
+      box-shadow: 0 10px 25px -5px rgba(67, 56, 202, 0.3);
       margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
     }
 
     .tag {
-      display: inline-block;
-      background: rgba(255, 255, 255, 0.2);
-      padding: 4px 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 5px 14px;
       border-radius: 999px;
       font-size: 0.8rem;
       font-weight: 800;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     h1 {
-      font-size: 1.8rem;
-      font-weight: 900;
-      margin-bottom: 6px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.1rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
     }
 
     .subtitle {
-      font-size: 1rem;
+      font-size: 1.05rem;
       opacity: 0.9;
+      max-width: 800px;
+      line-height: 1.5;
     }
 
-    /* Grid of 3 Independent Items */
+    /* Lesson Mode Switcher Bar */
+    .mode-nav {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+      background: #ffffff;
+      padding: 8px;
+      border-radius: 14px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .mode-tab-btn {
+      flex: 1;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.2s;
+      background: transparent;
+      color: #64748b;
+    }
+
+    .mode-tab-btn.active {
+      background: #1e1b4b;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(30, 27, 75, 0.25);
+    }
+
+    .section-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #1e1b4b;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Grid of Cards */
     .items-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -79,18 +135,19 @@
     .item-card {
       background: var(--card);
       border-radius: var(--radius);
-      padding: 22px;
-      border: 1px solid #e2e8f0;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      padding: 24px;
+      border: 1.5px solid #e2e8f0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
     }
 
     .item-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+      border-color: #a5b4fc;
     }
 
     .card-top {
@@ -107,12 +164,14 @@
       margin-bottom: 10px;
     }
 
-    .badge-1 { background: #e0e7ff; color: #3730a3; }
-    .badge-2 { background: #fef3c7; color: #92400e; }
-    .badge-3 { background: #dcfce7; color: #166534; }
+    .badge-blue { background: #e0e7ff; color: #3730a3; }
+    .badge-amber { background: #fef3c7; color: #92400e; }
+    .badge-green { background: #dcfce7; color: #166534; }
+    .badge-purple { background: #f3e8ff; color: #7e22ce; }
+    .badge-rose { background: #ffe4e6; color: #9f1239; }
 
     .item-card h3 {
-      font-size: 1.15rem;
+      font-size: 1.18rem;
       font-weight: 800;
       color: #1e1b4b;
       margin-bottom: 8px;
@@ -124,7 +183,7 @@
     .item-card p {
       font-size: 0.9rem;
       color: var(--text-muted);
-      line-height: 1.45;
+      line-height: 1.5;
     }
 
     .btn-group {
@@ -138,7 +197,7 @@
       padding: 10px 14px;
       border-radius: 10px;
       font-weight: 800;
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       text-align: center;
       text-decoration: none;
       cursor: pointer;
@@ -147,7 +206,7 @@
       justify-content: center;
       gap: 6px;
       transition: all 0.2s;
-      border: none;
+      border: 1px solid transparent;
     }
 
     .btn-primary {
@@ -159,9 +218,18 @@
       background: var(--primary-dark);
     }
 
+    .btn-green {
+      background: #059669;
+      color: white;
+    }
+
+    .btn-green:hover {
+      background: #047857;
+    }
+
     .btn-outline {
       background: #f8fafc;
-      border: 1px solid #cbd5e1;
+      border-color: #cbd5e1;
       color: #334155;
     }
 
@@ -169,13 +237,13 @@
       background: #e2e8f0;
     }
 
-    /* Code Box for Embed */
+    /* Code Section */
     .code-section {
       background: var(--card);
       border-radius: var(--radius);
       padding: 24px;
       border: 1px solid #e2e8f0;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
       margin-bottom: 30px;
     }
 
@@ -187,7 +255,7 @@
     }
 
     .code-header h3 {
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       font-weight: 800;
       color: var(--primary-dark);
     }
@@ -226,22 +294,22 @@
       border-radius: var(--radius);
       padding: 24px;
       border: 1px solid #e2e8f0;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     }
 
     .tabs-bar {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       margin-bottom: 16px;
       flex-wrap: wrap;
     }
 
     .tab-btn {
-      padding: 10px 18px;
-      border-radius: 10px;
-      font-weight: 800;
-      font-size: 0.9rem;
-      border: 2px solid #e2e8f0;
+      padding: 9px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      border: 1.5px solid #e2e8f0;
       background: #f8fafc;
       color: var(--text-muted);
       cursor: pointer;
@@ -258,7 +326,7 @@
       border: 2px solid #e2e8f0;
       border-radius: 14px;
       overflow: hidden;
-      height: 600px;
+      height: 640px;
       background: #f8fafc;
     }
 
@@ -269,143 +337,273 @@
     }
   </style>
 </head>
+
 <body>
 
-<div class="container">
-  <header>
-    <span class="tag">HỆ THỐNG LMS TIN HỌC 6 • TRUNG TÂM HỌC LIỆU ĐỘC LẬP</span>
-    <h1>CỔNG NHÚNG HỌC LIỆU TRỰC TUYẾN (TIẾT 1)</h1>
-    <p class="subtitle">BÀI 1: NGUỒN GỐC CỦA AI VÀ QUYỀN QUYẾT ĐỊNH (Chuẩn KHBD Tin học 6 - UNESCO AI CFT)</p>
-  </header>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <span class="tag">📚 TIN HỌC 6 • CHUYÊN ĐỀ TRÍ TUỆ NHÂN TẠO (AI)</span>
+      <h1>BÀI 1: NGUỒN GỐC CỦA AI VÀ QUYỀN QUYẾT ĐỊNH</h1>
+      <p class="subtitle">Trọn bộ học liệu số tích hợp theo mô hình kết hợp (Blended Learning): Tiết 1 học trực tuyến trên LMS & Tiết 2 dạy học trực tiếp tại lớp học.</p>
+    </header>
 
-  <!-- 3 Independent Cards -->
-  <div class="items-grid">
-    <!-- Item 1 -->
-    <div class="item-card">
-      <div class="card-top">
-        <span class="card-badge badge-1">HOẠT ĐỘNG 1 • 5 PHÚT</span>
-        <h3><span>📊</span> Khảo Sát Ngắn Khởi Động</h3>
-        <p>Bao gồm trắc nghiệm thăm dò nguồn gốc AI (phản hồi đúng/sai và giải thích sư phạm tức thì) cùng ô ghi nhận ý kiến thực tế của học sinh.</p>
+    <!-- Switcher Bar: Tiết 1 vs Tiết 2 -->
+    <nav class="mode-nav">
+      <button class="mode-tab-btn active" id="btnMode1" onclick="switchMode('tiet1')">
+        🌐 TIẾT 1: HỌC TRỰC TUYẾN TRÊN LMS (3 HỌC LIỆU SỐ)
+      </button>
+      <button class="mode-tab-btn" id="btnMode2" onclick="switchMode('tiet2')">
+        🏫 TIẾT 2: DẠY HỌC TRỰC TIẾP TRÊN LỚP (4 HỌC LIỆU LỚP HỌC)
+      </button>
+    </nav>
+
+    <!-- KHU VỰC TIẾT 1: HỌC TRỰC TUYẾN LMS -->
+    <div id="section-tiet1">
+      <div class="section-title">
+        <span>🌐</span> Các Học Liệu Số Nhúng LMS Độc Lập (Tiết 1)
       </div>
-      <div>
-        <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700; margin-bottom: 6px;">Tệp web độc lập:</div>
-        <code style="font-size: 0.82rem; background: #f1f5f9; padding: 4px 8px; border-radius: 4px; display: block; overflow: hidden; text-overflow: ellipsis;">hoc_lieu_1_khao_sat.html</code>
-        <div class="btn-group">
-          <a href="hoc_lieu_1_khao_sat.html" target="_blank" class="btn btn-primary">🔗 Mở tab riêng</a>
-          <button class="btn btn-outline" onclick="showEmbed(1)">📋 Mã nhúng LMS</button>
+
+      <div class="items-grid">
+        <!-- Item 1.1 -->
+        <div class="item-card">
+          <div class="card-top">
+            <span class="card-badge badge-blue">HOẠT ĐỘNG 1 • 5 PHÚT</span>
+            <h3><span>📊</span> Khảo Sát Khởi Động</h3>
+            <p>Trắc nghiệm phản hồi tức thì về nguồn gốc AI kèm ô nhập liệu thực tế cho học sinh.</p>
+          </div>
+          <div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700; margin-bottom: 6px;">Tệp web độc lập:</div>
+            <code style="font-size: 0.82rem; background: #f1f5f9; padding: 4px 8px; border-radius: 4px; display: block; overflow: hidden; text-overflow: ellipsis;">hoc_lieu_1_khao_sat.html</code>
+            <div class="btn-group">
+              <a href="hoc_lieu_1_khao_sat.html" target="_blank" class="btn btn-primary">🔗 Mở tab riêng</a>
+              <button class="btn btn-outline" onclick="showEmbed(1)">📋 Mã nhúng LMS</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 1.2 -->
+        <div class="item-card">
+          <div class="card-top">
+            <span class="card-badge badge-amber">HOẠT ĐỘNG 2.1 • 20 PHÚT</span>
+            <h3><span>🎬</span> Video Tương Tác SCORM</h3>
+            <p>Video thuyết minh chuẩn Edpuzzle có khóa tua bài và 3 mốc neo dừng trả lời câu hỏi tự động chấm điểm.</p>
+          </div>
+          <div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700; margin-bottom: 6px;">Tệp web độc lập:</div>
+            <code style="font-size: 0.82rem; background: #f1f5f9; padding: 4px 8px; border-radius: 4px; display: block; overflow: hidden; text-overflow: ellipsis;">hoc_lieu_2_video_tuong_tac.html</code>
+            <div class="btn-group">
+              <a href="hoc_lieu_2_video_tuong_tac.html" target="_blank" class="btn btn-primary">🔗 Mở tab riêng</a>
+              <button class="btn btn-outline" onclick="showEmbed(2)">📋 Mã nhúng LMS</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 1.3 -->
+        <div class="item-card">
+          <div class="card-top">
+            <span class="card-badge badge-green">HOẠT ĐỘNG 2.2 • 20 PHÚT</span>
+            <h3><span>🎮</span> Game Kéo Thả Gamification</h3>
+            <p>Kéo thả 10 thẻ phân loại AI & ghép nối 5 công cụ AI với bàn tay con người. Đồng hồ tự dừng khi hoàn thành 100%.</p>
+          </div>
+          <div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700; margin-bottom: 6px;">Tệp web độc lập:</div>
+            <code style="font-size: 0.82rem; background: #f1f5f9; padding: 4px 8px; border-radius: 4px; display: block; overflow: hidden; text-overflow: ellipsis;">hoc_lieu_3_gamification_keo_tha.html</code>
+            <div class="btn-group">
+              <a href="hoc_lieu_3_gamification_keo_tha.html" target="_blank" class="btn btn-primary">🔗 Mở tab riêng</a>
+              <button class="btn btn-outline" onclick="showEmbed(3)">📋 Mã nhúng LMS</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Embed Code Snippet Generator -->
+      <div class="code-section">
+        <div class="code-header">
+          <h3 id="embed-title">📋 Mã Nhúng Iframe Chuẩn LMS Cho Học Liệu 1</h3>
+          <button class="btn-copy" onclick="copyCurrentCode()">Sao chép mã nhúng</button>
+        </div>
+        <div class="code-box" id="embed-code-box">
+          &lt;iframe src="hoc_lieu_1_khao_sat.html" width="100%" height="600" frameborder="0" allowfullscreen="true" style="border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);"&gt;&lt;/iframe&gt;
+        </div>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">
+          💡 <strong>Cách nhúng vào LMS:</strong> Trong trình soạn thảo khóa học (Moodle, Canvas, K12Online, Azota...), chuyển sang chế độ <strong>Mã nguồn HTML (&lt;/&gt;)</strong> và dán đoạn mã iframe trên vào.
+        </p>
+      </div>
+    </div>
+
+    <!-- KHU VỰC TIẾT 2: DẠY HỌC TRỰC TIẾP TRÊN LỚP -->
+    <div id="section-tiet2" style="display: none;">
+      <div class="section-title">
+        <span>🏫</span> Bộ 4 Học Liệu Dạy Học Trực Tiếp Trên Lớp (Tiết 2)
+      </div>
+
+      <div class="items-grid">
+        <!-- Item 2.1 -->
+        <div class="item-card">
+          <div class="card-top">
+            <span class="card-badge badge-blue">HOẠT ĐỘNG 2.3 • 10 PHÚT</span>
+            <h3><span>🚲⚡</span> Slide Trình Chiếu Đối Chiếu</h3>
+            <p>Slide đối chiếu trực quan "Xe đạp điện" (Human-in-the-loop) vs "Robot hút bụi" (Phó mặc rủi ro) theo khuyến nghị của Bộ GD Hoa Kỳ & UNESCO.</p>
+          </div>
+          <div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700; margin-bottom: 6px;">Tệp trình chiếu:</div>
+            <code style="font-size: 0.82rem; background: #f1f5f9; padding: 4px 8px; border-radius: 4px; display: block; overflow: hidden; text-overflow: ellipsis;">slide_tiet_2.html</code>
+            <div class="btn-group">
+              <a href="slide_tiet_2.html" target="_blank" class="btn btn-primary">🖥 Mở Trình Chiếu</a>
+              <button class="btn btn-outline" onclick="previewFile('slide_tiet_2.html', 'Slide Trình Chiếu Tiết 2')">👁 Xem thử</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 2.2 & 2.3 -->
+        <div class="item-card">
+          <div class="card-top">
+            <span class="card-badge badge-amber">HOẠT ĐỘNG 3 • 20 PHÚT</span>
+            <h3><span>📄📊</span> Phiếu Học Tập & Bảng Phụ</h3>
+            <p>Trình bày 2 tình huống sự cố (Bạn A bịa sử kiện & Tài xế Google Maps lao xuống ruộng), Bảng phụ A3/A2 và Rubric chấm chéo 10đ.</p>
+          </div>
+          <div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700; margin-bottom: 6px;">Tệp in ấn & thảo luận:</div>
+            <code style="font-size: 0.82rem; background: #f1f5f9; padding: 4px 8px; border-radius: 4px; display: block; overflow: hidden; text-overflow: ellipsis;">phieu_hoc_tap_va_bang_phu.html</code>
+            <div class="btn-group">
+              <a href="phieu_hoc_tap_va_bang_phu.html" target="_blank" class="btn btn-primary">🖨 In / Xem Phiếu</a>
+              <button class="btn btn-outline" onclick="previewFile('phieu_hoc_tap_va_bang_phu.html', 'Phiếu Học Tập & Bảng Phụ')">👁 Xem thử</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 2.4 -->
+        <div class="item-card">
+          <div class="card-top">
+            <span class="card-badge badge-green">HOẠT ĐỘNG 4 • 15 PHÚT</span>
+            <h3><span>🏷✨</span> Thẻ "Tuyên Ngôn Làm Chủ AI"</h3>
+            <p>Bộ thẻ Note màu xanh/đỏ (Quy tắc NÊN / KHÔNG NÊN) khổ A4 kèm đường nét đứt cắt kéo ✂️ để học sinh viết và dán lên bảng lớp.</p>
+          </div>
+          <div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700; margin-bottom: 6px;">Tệp in ấn thẻ dán:</div>
+            <code style="font-size: 0.82rem; background: #f1f5f9; padding: 4px 8px; border-radius: 4px; display: block; overflow: hidden; text-overflow: ellipsis;">the_tuyen_ngon_lam_chu_ai.html</code>
+            <div class="btn-group">
+              <a href="the_tuyen_ngon_lam_chu_ai.html" target="_blank" class="btn btn-green">✂️ In Thẻ Note</a>
+              <button class="btn btn-outline" onclick="previewFile('the_tuyen_ngon_lam_chu_ai.html', 'Bộ Thẻ Tuyên Ngôn')">👁 Xem thử</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Item 2 -->
-    <div class="item-card">
-      <div class="card-top">
-        <span class="card-badge badge-2">HOẠT ĐỘNG 2.1 • 20 PHÚT</span>
-        <h3><span>🎬</span> Video Tương Tác SCORM/H5P</h3>
-        <p>Video học tập chuẩn Edpuzzle/H5P với cơ chế khóa tua bài (Prevent skipping) và 3 câu hỏi trắc nghiệm neo chặn (Pop-up checkpoints) tự động chấm điểm.</p>
-      </div>
-      <div>
-        <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700; margin-bottom: 6px;">Tệp web độc lập:</div>
-        <code style="font-size: 0.82rem; background: #f1f5f9; padding: 4px 8px; border-radius: 4px; display: block; overflow: hidden; text-overflow: ellipsis;">hoc_lieu_2_video_tuong_tac.html</code>
-        <div class="btn-group">
-          <a href="hoc_lieu_2_video_tuong_tac.html" target="_blank" class="btn btn-primary">🔗 Mở tab riêng</a>
-          <button class="btn btn-outline" onclick="showEmbed(2)">📋 Mã nhúng LMS</button>
+    <!-- Live Embed Sandbox Preview -->
+    <div class="preview-section">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+        <h3 id="preview-header-title" style="font-size: 1.2rem; font-weight: 800; color: var(--primary-dark);">
+          🖥️ Xem Thử Trực Tiếp (Live Iframe Sandbox)
+        </h3>
+        <div class="tabs-bar" id="preview-tabs-container">
+          <!-- Populated by JS -->
         </div>
       </div>
-    </div>
 
-    <!-- Item 3 -->
-    <div class="item-card">
-      <div class="card-top">
-        <span class="card-badge badge-3">HOẠT ĐỘNG 2.2 • 20 PHÚT</span>
-        <h3><span>🎮</span> Game Kéo Thả Gamification</h3>
-        <p>Thiết kế dạng Wordwall gồm 2 nhiệm vụ: Kéo thả 10 thẻ phân loại Có/Không dùng AI & Ghép nối 5 cặp công cụ AI với bàn tay con người. Điều kiện Pass: >= 8/10.</p>
-      </div>
-      <div>
-        <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700; margin-bottom: 6px;">Tệp web độc lập:</div>
-        <code style="font-size: 0.82rem; background: #f1f5f9; padding: 4px 8px; border-radius: 4px; display: block; overflow: hidden; text-overflow: ellipsis;">hoc_lieu_3_gamification_keo_tha.html</code>
-        <div class="btn-group">
-          <a href="hoc_lieu_3_gamification_keo_tha.html" target="_blank" class="btn btn-primary">🔗 Mở tab riêng</a>
-          <button class="btn btn-outline" onclick="showEmbed(3)">📋 Mã nhúng LMS</button>
-        </div>
+      <div class="iframe-wrapper">
+        <iframe id="preview-frame" src="hoc_lieu_1_khao_sat.html" title="LMS Learning Object Preview"></iframe>
       </div>
     </div>
   </div>
 
-  <!-- Embed Code Snippet Generator -->
-  <div class="code-section">
-    <div class="code-header">
-      <h3 id="embed-title">📋 Mã Nhúng Iframe Chuẩn LMS Cho Học Liệu 1</h3>
-      <button class="btn-copy" onclick="copyCurrentCode()">Sao chép mã nhúng</button>
-    </div>
-    <div class="code-box" id="embed-code-box">
-&lt;iframe src="hoc_lieu_1_khao_sat.html" width="100%" height="600" frameborder="0" allowfullscreen="true" style="border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);"&gt;&lt;/iframe&gt;
-    </div>
-    <p style="font-size: 0.85rem; color: var(--text-muted);">
-      💡 <strong>Cách nhúng vào LMS:</strong> Trong trình soạn thảo khóa học (Moodle, Canvas, K12Online, Azota...), chuyển sang chế độ <strong>Mã nguồn HTML (&lt;/&gt;)</strong> và dán đoạn mã iframe trên vào là xong.
-    </p>
-  </div>
+  <script>
+    let currentMode = 'tiet1';
 
-  <!-- Live Embed Sandbox Preview -->
-  <div class="preview-section">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
-      <h3 style="font-size: 1.2rem; font-weight: 800; color: var(--primary-dark);">
-        🖥️ Xem Thử Trực Tiếp (Live Iframe Sandbox)
-      </h3>
-      <div class="tabs-bar">
-        <button class="tab-btn active" id="tab-p-1" onclick="switchPreview(1, 'hoc_lieu_1_khao_sat.html')">1. Khảo Sát Ngắn</button>
-        <button class="tab-btn" id="tab-p-2" onclick="switchPreview(2, 'hoc_lieu_2_video_tuong_tac.html')">2. Video SCORM</button>
-        <button class="tab-btn" id="tab-p-3" onclick="switchPreview(3, 'hoc_lieu_3_gamification_keo_tha.html')">3. Game Kéo Thả</button>
-      </div>
-    </div>
+    const embedCodes = {
+      1: {
+        title: "📋 Mã Nhúng Iframe Chuẩn LMS Cho: Khảo Sát Ngắn (Hoạt động 1)",
+        code: `<iframe src="hoc_lieu_1_khao_sat.html" width="100%" height="620" frameborder="0" allowfullscreen="true" style="border-radius: 14px; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.08);"></iframe>`
+      },
+      2: {
+        title: "📋 Mã Nhúng Iframe Chuẩn LMS Cho: Video Tương Tác SCORM/H5P (Hoạt động 2.1)",
+        code: `<iframe src="hoc_lieu_2_video_tuong_tac.html" width="100%" height="580" frameborder="0" allowfullscreen="true" style="border-radius: 14px; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.08);"></iframe>`
+      },
+      3: {
+        title: "📋 Mã Nhúng Iframe Chuẩn LMS Cho: Game Kéo Thả Gamification (Hoạt động 2.2)",
+        code: `<iframe src="hoc_lieu_3_gamification_keo_tha.html" width="100%" height="680" frameborder="0" allowfullscreen="true" style="border-radius: 14px; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.08);"></iframe>`
+      }
+    };
 
-    <div class="iframe-wrapper">
-      <iframe id="preview-frame" src="hoc_lieu_1_khao_sat.html" title="LMS Learning Object Preview"></iframe>
-    </div>
-  </div>
-</div>
+    const tiet1Tabs = [
+      { id: 1, label: "1. Khảo Sát Ngắn", file: "hoc_lieu_1_khao_sat.html" },
+      { id: 2, label: "2. Video SCORM", file: "hoc_lieu_2_video_tuong_tac.html" },
+      { id: 3, label: "3. Game Kéo Thả", file: "hoc_lieu_3_gamification_keo_tha.html" }
+    ];
 
-<script>
-  const embedCodes = {
-    1: {
-      title: "📋 Mã Nhúng Iframe Chuẩn LMS Cho: Khảo Sát Ngắn (Hoạt động 1)",
-      code: `<iframe src="hoc_lieu_1_khao_sat.html" width="100%" height="620" frameborder="0" allowfullscreen="true" style="border-radius: 14px; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.08);"></iframe>`
-    },
-    2: {
-      title: "📋 Mã Nhúng Iframe Chuẩn LMS Cho: Video Tương Tác SCORM/H5P (Hoạt động 2.1)",
-      code: `<iframe src="hoc_lieu_2_video_tuong_tac.html" width="100%" height="580" frameborder="0" allowfullscreen="true" style="border-radius: 14px; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.08);"></iframe>`
-    },
-    3: {
-      title: "📋 Mã Nhúng Iframe Chuẩn LMS Cho: Game Kéo Thả Gamification (Hoạt động 2.2)",
-      code: `<iframe src="hoc_lieu_3_gamification_keo_tha.html" width="100%" height="680" frameborder="0" allowfullscreen="true" style="border-radius: 14px; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.08);"></iframe>`
+    const tiet2Tabs = [
+      { id: 4, label: "Slide: Xe Đạp Điện vs Robot", file: "slide_tiet_2.html" },
+      { id: 5, label: "Phiếu Học Tập & Bảng Phụ", file: "phieu_hoc_tap_va_bang_phu.html" },
+      { id: 6, label: "Bộ Thẻ Tuyên Ngôn AI", file: "the_tuyen_ngon_lam_chu_ai.html" }
+    ];
+
+    function renderTabs(mode) {
+      const container = document.getElementById('preview-tabs-container');
+      container.innerHTML = '';
+      const tabs = mode === 'tiet1' ? tiet1Tabs : tiet2Tabs;
+
+      tabs.forEach((tab, index) => {
+        const btn = document.createElement('button');
+        btn.className = `tab-btn ${index === 0 ? 'active' : ''}`;
+        btn.id = `tab-btn-${tab.id}`;
+        btn.textContent = tab.label;
+        btn.onclick = () => {
+          document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          document.getElementById('preview-frame').src = tab.file + '?t=' + Date.now();
+        };
+        container.appendChild(btn);
+      });
+
+      document.getElementById('preview-frame').src = tabs[0].file + '?t=' + Date.now();
     }
-  };
 
-  let activeIndex = 1;
+    function switchMode(mode) {
+      currentMode = mode;
+      if (mode === 'tiet1') {
+        document.getElementById('btnMode1').classList.add('active');
+        document.getElementById('btnMode2').classList.remove('active');
+        document.getElementById('section-tiet1').style.display = 'block';
+        document.getElementById('section-tiet2').style.display = 'none';
+        renderTabs('tiet1');
+      } else {
+        document.getElementById('btnMode2').classList.add('active');
+        document.getElementById('btnMode1').classList.remove('active');
+        document.getElementById('section-tiet1').style.display = 'none';
+        document.getElementById('section-tiet2').style.display = 'block';
+        renderTabs('tiet2');
+      }
+    }
 
-  function showEmbed(idx) {
-    activeIndex = idx;
-    document.getElementById('embed-title').innerText = embedCodes[idx].title;
-    document.getElementById('embed-code-box').innerText = embedCodes[idx].code;
-    const file = idx === 1 ? 'hoc_lieu_1_khao_sat.html?t=' + Date.now() : (idx === 2 ? 'hoc_lieu_2_video_tuong_tac.html?t=' + Date.now() : 'hoc_lieu_3_gamification_keo_tha.html?t=' + Date.now());
-    switchPreview(idx, file);
-    window.scrollTo({ top: document.querySelector('.code-section').offsetTop - 20, behavior: 'smooth' });
-  }
+    function showEmbed(idx) {
+      document.getElementById('embed-title').innerText = embedCodes[idx].title;
+      document.getElementById('embed-code-box').innerText = embedCodes[idx].code;
+      const file = idx === 1 ? 'hoc_lieu_1_khao_sat.html' : (idx === 2 ? 'hoc_lieu_2_video_tuong_tac.html' : 'hoc_lieu_3_gamification_keo_tha.html');
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById(`tab-btn-${idx}`);
+      if (activeBtn) activeBtn.classList.add('active');
+      document.getElementById('preview-frame').src = file + '?t=' + Date.now();
+      window.scrollTo({ top: document.querySelector('.code-section').offsetTop - 20, behavior: 'smooth' });
+    }
 
-  function switchPreview(idx, file) {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById(`tab-p-${idx}`).classList.add('active');
-    document.getElementById('preview-frame').src = file;
-  }
+    function previewFile(file, title) {
+      document.getElementById('preview-frame').src = file + '?t=' + Date.now();
+      window.scrollTo({ top: document.querySelector('.preview-section').offsetTop - 20, behavior: 'smooth' });
+    }
 
-  function copyCurrentCode() {
-    const code = document.getElementById('embed-code-box').innerText;
-    navigator.clipboard.writeText(code).then(() => {
-      alert("Đã sao chép mã nhúng Iframe vào bộ nhớ tạm! Bạn có thể dán trực tiếp vào LMS.");
-    });
-  }
-</script>
+    function copyCurrentCode() {
+      const code = document.getElementById('embed-code-box').innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        alert("Đã sao chép mã nhúng Iframe vào bộ nhớ tạm! Bạn có thể dán trực tiếp vào LMS.");
+      });
+    }
+
+    // Init with Tiết 1
+    renderTabs('tiet1');
+  </script>
 
 </body>
-</html>
 
+</html>
