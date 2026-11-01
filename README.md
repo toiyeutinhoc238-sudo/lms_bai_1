@@ -23,10 +23,11 @@
 
 ## 🏫 TIẾT 2: DẠY HỌC TRỰC TIẾP TRÊN LỚP (4 HỌC LIỆU LỚP HỌC)
 
-1. **`slide_tiet_2.html` (Hoạt động 2.3 - 10 phút)**
-   - Slide trình chiếu máy chiếu/màn hình tương tác so sánh: **"Xe đạp điện"** (Human-in-the-loop - Con người cầm lái và bóp phanh) vs **"Robot hút bụi"** (Phó mặc rủi ro).
+1. **`slide_tiet_2.html` & `bai_1_tiet_2_canva_slide.pptx` (Hoạt động 2.3 - 10 phút)**
+   - **Slide PowerPoint (.pptx) chuẩn Canva Education:** 7 slide tỷ lệ 16:9, thiết kế bố cục Canva sang trọng, màu sắc giáo dục tươi sáng, dễ nhìn từ xa, mở được trực tiếp trên Microsoft PowerPoint hoặc kéo thả nhập vào Canva.com để chỉnh sửa.
+   - **Slide Web tương tác:** Trình chiếu trực tiếp trên lớp với phím tắt điều hướng và nút tải file PPTX.
+   - So sánh trực quan: **"Xe đạp điện"** (Human-in-the-loop - Con người cầm lái và bóp phanh) vs **"Robot hút bụi"** (Phó mặc rủi ro).
    - Tích hợp khuyến nghị Bộ Giáo dục Hoa Kỳ (2023) & UNESCO AI CFT.
-   - Điều khiển phím mũi tên, toàn màn hình (F), gợi ý dành cho giáo viên.
 
 2. **`phieu_hoc_tap_va_bang_phu.html` (Hoạt động 3 - 20 phút)**
    - **Phiếu học tập nhóm (Khổ A4):** Phân tích 2 tình huống sự cố thực tế (Case study: Bạn A sao chép AI bịa sử kiện & Chú tài xế theo Google Maps sa lầy xuống ruộng).
