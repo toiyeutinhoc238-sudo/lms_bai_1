@@ -3,18 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Thẻ Note Tuyên Ngôn Làm Chủ AI (NÊN & KHÔNG NÊN) - Tiết 2</title>
+  <title>Phiếu Học Tập Mini: Tuyên Ngôn Làm Chủ AI (NÊN & KHÔNG NÊN) - Tiết 2</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --green-bg: #ecfdf5;
-      --green-border: #10b981;
-      --green-text: #065f46;
+      --green-bg: #f0fdf4;
+      --green-border: #16a34a;
+      --green-header: #15803d;
+      --green-text: #14532d;
       --red-bg: #fff1f2;
-      --red-border: #f43f5e;
-      --red-text: #9f1239;
+      --red-border: #e11d48;
+      --red-header: #be123c;
+      --red-text: #881337;
     }
 
     * {
@@ -28,13 +30,13 @@
       background: #f8fafc;
       color: #0f172a;
       padding: 24px;
-      line-height: 1.5;
+      line-height: 1.45;
     }
 
     /* Web Toolbar */
     .toolbar {
       max-width: 960px;
-      margin: 0 auto 24px auto;
+      margin: 0 auto 20px auto;
       background: #ffffff;
       padding: 16px 24px;
       border-radius: 16px;
@@ -96,22 +98,20 @@
       background: #f1f5f9;
     }
 
-    /* Print instruction banner */
-    .print-tip {
+    /* Pedagogical Guide Banner */
+    .guide-banner {
       max-width: 960px;
       margin: 0 auto 20px auto;
       background: #eff6ff;
       border: 1px solid #bfdbfe;
       border-radius: 12px;
-      padding: 12px 18px;
+      padding: 14px 20px;
       font-size: 13px;
       color: #1e40af;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      line-height: 1.6;
     }
 
-    /* A4 Sheet Container */
+    /* A4 Print Sheet Container */
     .a4-sheet {
       max-width: 960px;
       margin: 0 auto 30px auto;
@@ -123,11 +123,11 @@
     }
 
     .sheet-meta-title {
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 800;
       color: #475569;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 0.8px;
       margin-bottom: 16px;
       display: flex;
       justify-content: space-between;
@@ -135,111 +135,166 @@
       padding-bottom: 8px;
     }
 
-    /* Cards Grid (4 cards per page) */
+    /* Cards Grid (Khổ chuẩn 4 phiếu mini trên 1 trang A4 - Kích thước A6) */
     .cards-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 20px;
     }
 
-    /* Single Card Styling */
-    .pledge-card {
+    /* Phiếu học tập mini styling */
+    .mini-worksheet {
       border: 2px dashed;
-      border-radius: 16px;
-      padding: 18px 20px;
+      border-radius: 14px;
+      padding: 16px 18px;
       display: flex;
       flex-direction: column;
       position: relative;
       background: #ffffff;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
     }
 
-    .pledge-card.card-do {
+    .mini-worksheet.card-do {
       border-color: var(--green-border);
       background: var(--green-bg);
     }
 
-    .pledge-card.card-dont {
+    .mini-worksheet.card-dont {
       border-color: var(--red-border);
       background: var(--red-bg);
     }
 
-    /* Scissors icon marker */
-    .scissors-cut {
+    .cut-indicator {
       position: absolute;
       top: -11px;
-      right: 24px;
+      right: 20px;
       background: #ffffff;
       padding: 0 8px;
       font-size: 11px;
       font-weight: 700;
-      color: #94a3b8;
+      color: #64748b;
       border-radius: 4px;
+      border: 1px solid #e2e8f0;
     }
 
-    .card-badge {
-      display: inline-flex;
+    /* Worksheet Header Bar */
+    .ws-header {
+      border-bottom: 1.5px solid;
+      padding-bottom: 6px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 6px;
-      font-size: 12px;
+    }
+
+    .card-do .ws-header {
+      border-color: rgba(22, 163, 74, 0.4);
+    }
+
+    .card-dont .ws-header {
+      border-color: rgba(225, 29, 72, 0.4);
+    }
+
+    .ws-tag {
+      font-size: 11px;
       font-weight: 800;
-      padding: 4px 10px;
-      border-radius: 6px;
-      align-self: flex-start;
-      margin-bottom: 10px;
       text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
-    .card-do .card-badge {
-      background: #10b981;
-      color: #ffffff;
+    .card-do .ws-tag {
+      color: var(--green-header);
     }
 
-    .card-dont .card-badge {
-      background: #f43f5e;
-      color: #ffffff;
+    .card-dont .ws-tag {
+      color: var(--red-header);
     }
 
-    .card-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 17px;
-      font-weight: 700;
+    .ws-title-box {
+      text-align: center;
       margin-bottom: 10px;
     }
 
-    .card-do .card-title {
+    .ws-main-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+    }
+
+    .card-do .ws-main-title {
       color: var(--green-text);
     }
 
-    .card-dont .card-title {
+    .card-dont .ws-main-title {
       color: var(--red-text);
     }
 
-    /* Card Form Body */
-    .field-group {
-      margin-bottom: 10px;
-    }
-
-    .field-label {
-      font-size: 12.5px;
+    .ws-sub-title {
+      font-size: 11px;
       font-weight: 700;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-top: 2px;
+    }
+
+    .card-do .ws-sub-title {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .card-dont .ws-sub-title {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    /* Student info line */
+    .student-info-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px dotted rgba(0,0,0,0.15);
+    }
+
+    .line-text {
+      border-bottom: 1px dotted #475569;
+      display: inline-block;
+      min-width: 100px;
+    }
+
+    /* Worksheet Tasks */
+    .task-block {
+      margin-bottom: 8px;
+    }
+
+    .task-label {
+      font-size: 12px;
+      font-weight: 800;
       margin-bottom: 4px;
-      display: block;
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
-    .card-do .field-label {
-      color: #065f46;
+    .card-do .task-label {
+      color: var(--green-text);
     }
 
-    .card-dont .field-label {
-      color: #881337;
+    .card-dont .task-label {
+      color: var(--red-text);
     }
 
     .write-lines {
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
       margin-bottom: 6px;
     }
 
@@ -249,25 +304,32 @@
       width: 100%;
     }
 
-    .footer-signer {
+    /* Footer Commitment */
+    .ws-footer {
       margin-top: auto;
-      padding-top: 10px;
-      border-top: 1px dashed rgba(0,0,0,0.15);
+      padding-top: 8px;
+      border-top: 1px dashed rgba(0,0,0,0.2);
       display: flex;
       justify-content: space-between;
-      font-size: 12px;
-      font-weight: 700;
+      align-items: flex-end;
+      font-size: 11px;
       color: #334155;
     }
 
-    .signer-line {
-      display: inline-block;
-      border-bottom: 1px dotted #475569;
-      min-width: 110px;
+    .signer-box {
+      text-align: right;
+      font-weight: 700;
     }
 
-    /* Space Classroom Wall Guide */
-    .wall-guide {
+    .sign-space {
+      height: 18px;
+      border-bottom: 1px dotted #475569;
+      min-width: 90px;
+      display: inline-block;
+    }
+
+    /* Board Gallery Plan */
+    .board-plan {
       max-width: 960px;
       margin: 0 auto;
       background: #1e1b4b;
@@ -277,55 +339,55 @@
       box-shadow: 0 8px 24px rgba(30, 27, 75, 0.4);
     }
 
-    .wall-guide h3 {
+    .board-plan h3 {
       font-size: 18px;
       font-weight: 800;
       color: #a5b4fc;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
-    .wall-guide p {
+    .board-plan p {
       font-size: 13.5px;
       color: #cbd5e1;
       line-height: 1.6;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
 
-    .wall-mockup {
+    .board-layout-demo {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 16px;
       background: #0f172a;
-      padding: 18px;
+      padding: 20px;
       border-radius: 12px;
       border: 2px dashed #4338ca;
     }
 
-    .mockup-col {
-      padding: 14px;
+    .board-pane {
+      padding: 16px;
       border-radius: 8px;
       text-align: center;
     }
 
-    .mockup-col.col-green {
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid #10b981;
+    .board-pane.pane-do {
+      background: rgba(16, 185, 129, 0.12);
+      border: 1.5px solid #10b981;
     }
 
-    .mockup-col.col-red {
-      background: rgba(244, 63, 94, 0.15);
-      border: 1px solid #f43f5e;
+    .board-pane.pane-dont {
+      background: rgba(244, 63, 94, 0.12);
+      border: 1.5px solid #f43f5e;
     }
 
-    .mockup-col h4 {
-      font-size: 14px;
+    .board-pane h4 {
+      font-size: 14.5px;
       font-weight: 800;
       margin-bottom: 8px;
     }
 
-    .mockup-col ul {
+    .board-pane ul {
       list-style: none;
-      font-size: 12px;
+      font-size: 12.5px;
       color: #e2e8f0;
       text-align: left;
       line-height: 1.6;
@@ -338,14 +400,14 @@
         padding: 0;
       }
 
-      .toolbar, .print-tip, .wall-guide {
+      .toolbar, .guide-banner, .board-plan {
         display: none !important;
       }
 
       .a4-sheet {
         box-shadow: none !important;
         border: none !important;
-        padding: 8mm 8mm !important;
+        padding: 6mm 6mm !important;
         page-break-after: always;
       }
 
@@ -360,276 +422,385 @@
   <!-- Toolbar điều khiển -->
   <header class="toolbar">
     <div class="toolbar-title">
-      <h1>HỌC LIỆU TIẾT 2: BỘ THẺ "TUYÊN NGÔN LÀM CHỦ AI"</h1>
-      <p>Hoạt động 4: Vận dụng & Tuyên thệ làm chủ công nghệ (15 phút cuối tiết)</p>
+      <h1>HỌC LIỆU 4: PHIẾU HỌC TẬP MINI "TUYÊN NGÔN LÀM CHỦ AI"</h1>
+      <p>Hoạt động 4 (Vận dụng - 15 phút): Học sinh hoàn thành phiếu học tập cá nhân mini rồi dán lên bảng lớp</p>
     </div>
     <div class="toolbar-btns">
       <button class="btn btn-primary" onclick="window.print()">
-        🖨 In tất cả thẻ (Print / PDF)
+        🖨 In Tất Cả Phiếu Mini (Print / PDF)
       </button>
       <a href="phieu_hoc_tap_va_bang_phu.html" class="btn btn-outline">
-        ◀ Phiếu học tập & Bảng phụ
+        ◀ Phiếu Học Tập Nhóm (A4 & A3)
       </a>
       <a href="slide_tiet_2.html" class="btn btn-outline">
-        Slide trình chiếu Tiết 2 ➔
+        Slide Trình Chiếu Tiết 2 ➔
       </a>
     </div>
   </header>
 
-  <!-- Hướng dẫn in ấn -->
-  <div class="print-tip">
-    <div>
-      💡 <strong>Mẹo giáo viên:</strong> Mỗi tờ A4 in được 4 thẻ Note màu kèm viền cắt ✂️. Giáo viên có thể in màu trên giấy A4 trắng hoặc in trắng đen trên giấy thủ công màu xanh/hồng để học sinh viết và dán lên bảng.
-    </div>
-    <button onclick="window.print()" style="background:#2563eb; color:white; border:none; padding:6px 12px; border-radius:6px; cursor:pointer; font-weight:700; font-size:12px;">In trang này</button>
+  <!-- Hướng dẫn Sư phạm dành cho Giáo viên -->
+  <div class="guide-banner">
+    📌 <strong>Quy cách sư phạm (Kích cỡ A6 chuẩn phiếu học tập mini):</strong> Mỗi tờ A4 in được <strong>4 phiếu học tập mini</strong>. Giáo viên phát cho mỗi học sinh 1 phiếu mini (Mẫu NÊN màu xanh hoặc Mẫu KHÔNG NÊN màu đỏ). Sau khi hoàn thành phần phân tích và cam kết (3 phút), học sinh đem <strong>dán trực tiếp phiếu học tập mini của mình lên bảng lớp</strong> để hình thành không gian học tập tương tác chung của cả lớp.
   </div>
 
-  <!-- TRANG IN SỐ 1: BỘ 4 THẺ QUY TẮC "NÊN" (DO) -->
+  <!-- TRANG IN SỐ 1: 4 PHIẾU HỌC TẬP MINI "QUY TẮC NÊN" (DO) -->
   <section class="a4-sheet">
     <div class="sheet-meta-title">
-      <span>🟢 BỘ THẺ QUY TẮC "NÊN" (DO) — CẮT THEO ĐƯỜNG NÉT ĐỨT</span>
-      <span>TRƯỜNG THCS • LỚP 6</span>
+      <span>🟢 PHIẾU HỌC TẬP MINI: QUY TẮC NÊN (MẪU 01) — CẮT THEO ĐƯỜNG NÉT ĐỨT</span>
+      <span>MÔN TIN HỌC 6 • TIẾT 2</span>
     </div>
 
     <div class="cards-grid">
-      <!-- Thẻ Nên 1 -->
-      <div class="pledge-card card-do">
-        <span class="scissors-cut">✂️ Cắt tại đây</span>
-        <span class="card-badge">🟢 QUY TẮC NÊN</span>
-        <h2 class="card-title">TUYÊN NGÔN LÀM CHỦ AI</h2>
-
-        <div class="field-group">
-          <label class="field-label">1. Em cam kết NÊN:</label>
-          <div class="write-lines">
-            <div class="dotted-line"></div>
-            <div class="dotted-line"></div>
-          </div>
+      <!-- Phiếu Mini Nên 1 -->
+      <div class="mini-worksheet card-do">
+        <span class="cut-indicator">✂️ Cắt phiếu mini</span>
+        <div class="ws-header">
+          <span class="ws-tag">TRƯỜNG THCS: .............................</span>
+          <span class="ws-tag" style="color:#15803d; font-weight:800;">PHIẾU SỐ 04-A</span>
         </div>
 
-        <div class="field-group">
-          <label class="field-label">2. Để đảm bảo:</label>
-          <div class="write-lines">
-            <div class="dotted-line"></div>
-          </div>
-        </div>
-
-        <div class="footer-signer">
-          <div>Họ tên: <span class="signer-line" style="min-width: 110px;"></span></div>
+        <div class="student-info-row">
+          <div>Họ và tên: <span class="line-text" style="min-width: 130px;"></span></div>
           <div>Lớp: 6/....</div>
+        </div>
+
+        <div class="ws-title-box">
+          <h2 class="ws-main-title">PHIẾU HỌC TẬP MINI</h2>
+          <span class="ws-sub-title">TUYÊN NGÔN LÀM CHỦ AI • QUY TẮC NÊN</span>
+        </div>
+
+        <div class="task-block">
+          <label class="task-label">1. Em cam kết NÊN:</label>
+          <div class="write-lines">
+            <div class="dotted-line"></div>
+            <div class="dotted-line"></div>
+          </div>
+        </div>
+
+        <div class="task-block">
+          <label class="task-label">2. Để đảm bảo / Vì lý do:</label>
+          <div class="write-lines">
+            <div class="dotted-line"></div>
+          </div>
+        </div>
+
+        <div class="ws-footer">
+          <div><em>(Dán lên Bảng Lớp)</em></div>
+          <div class="signer-box">
+            Chữ ký học sinh: <span class="sign-space"></span>
+          </div>
         </div>
       </div>
 
-      <!-- Thẻ Nên 2 -->
-      <div class="pledge-card card-do">
-        <span class="scissors-cut">✂️ Cắt tại đây</span>
-        <span class="card-badge">🟢 QUY TẮC NÊN</span>
-        <h2 class="card-title">TUYÊN NGÔN LÀM CHỦ AI</h2>
-
-        <div class="field-group">
-          <label class="field-label">1. Em cam kết NÊN:</label>
-          <div class="write-lines">
-            <div class="dotted-line"></div>
-            <div class="dotted-line"></div>
-          </div>
+      <!-- Phiếu Mini Nên 2 -->
+      <div class="mini-worksheet card-do">
+        <span class="cut-indicator">✂️ Cắt phiếu mini</span>
+        <div class="ws-header">
+          <span class="ws-tag">TRƯỜNG THCS: .............................</span>
+          <span class="ws-tag" style="color:#15803d; font-weight:800;">PHIẾU SỐ 04-A</span>
         </div>
 
-        <div class="field-group">
-          <label class="field-label">2. Để đảm bảo:</label>
-          <div class="write-lines">
-            <div class="dotted-line"></div>
-          </div>
-        </div>
-
-        <div class="footer-signer">
-          <div>Họ tên: <span class="signer-line" style="min-width: 110px;"></span></div>
+        <div class="student-info-row">
+          <div>Họ và tên: <span class="line-text" style="min-width: 130px;"></span></div>
           <div>Lớp: 6/....</div>
+        </div>
+
+        <div class="ws-title-box">
+          <h2 class="ws-main-title">PHIẾU HỌC TẬP MINI</h2>
+          <span class="ws-sub-title">TUYÊN NGÔN LÀM CHỦ AI • QUY TẮC NÊN</span>
+        </div>
+
+        <div class="task-block">
+          <label class="task-label">1. Em cam kết NÊN:</label>
+          <div class="write-lines">
+            <div class="dotted-line"></div>
+            <div class="dotted-line"></div>
+          </div>
+        </div>
+
+        <div class="task-block">
+          <label class="task-label">2. Để đảm bảo / Vì lý do:</label>
+          <div class="write-lines">
+            <div class="dotted-line"></div>
+          </div>
+        </div>
+
+        <div class="ws-footer">
+          <div><em>(Dán lên Bảng Lớp)</em></div>
+          <div class="signer-box">
+            Chữ ký học sinh: <span class="sign-space"></span>
+          </div>
         </div>
       </div>
 
-      <!-- Thẻ Nên 3 -->
-      <div class="pledge-card card-do">
-        <span class="scissors-cut">✂️ Cắt tại đây</span>
-        <span class="card-badge">🟢 QUY TẮC NÊN</span>
-        <h2 class="card-title">TUYÊN NGÔN LÀM CHỦ AI</h2>
-
-        <div class="field-group">
-          <label class="field-label">1. Em cam kết NÊN:</label>
-          <div class="write-lines">
-            <div class="dotted-line"></div>
-            <div class="dotted-line"></div>
-          </div>
+      <!-- Phiếu Mini Nên 3 -->
+      <div class="mini-worksheet card-do">
+        <span class="cut-indicator">✂️ Cắt phiếu mini</span>
+        <div class="ws-header">
+          <span class="ws-tag">TRƯỜNG THCS: .............................</span>
+          <span class="ws-tag" style="color:#15803d; font-weight:800;">PHIẾU SỐ 04-A</span>
         </div>
 
-        <div class="field-group">
-          <label class="field-label">2. Để đảm bảo:</label>
-          <div class="write-lines">
-            <div class="dotted-line"></div>
-          </div>
-        </div>
-
-        <div class="footer-signer">
-          <div>Họ tên: <span class="signer-line" style="min-width: 110px;"></span></div>
+        <div class="student-info-row">
+          <div>Họ và tên: <span class="line-text" style="min-width: 130px;"></span></div>
           <div>Lớp: 6/....</div>
+        </div>
+
+        <div class="ws-title-box">
+          <h2 class="ws-main-title">PHIẾU HỌC TẬP MINI</h2>
+          <span class="ws-sub-title">TUYÊN NGÔN LÀM CHỦ AI • QUY TẮC NÊN</span>
+        </div>
+
+        <div class="task-block">
+          <label class="task-label">1. Em cam kết NÊN:</label>
+          <div class="write-lines">
+            <div class="dotted-line"></div>
+            <div class="dotted-line"></div>
+          </div>
+        </div>
+
+        <div class="task-block">
+          <label class="task-label">2. Để đảm bảo / Vì lý do:</label>
+          <div class="write-lines">
+            <div class="dotted-line"></div>
+          </div>
+        </div>
+
+        <div class="ws-footer">
+          <div><em>(Dán lên Bảng Lớp)</em></div>
+          <div class="signer-box">
+            Chữ ký học sinh: <span class="sign-space"></span>
+          </div>
         </div>
       </div>
 
-      <!-- Thẻ Nên 4 -->
-      <div class="pledge-card card-do">
-        <span class="scissors-cut">✂️ Cắt tại đây</span>
-        <span class="card-badge">🟢 QUY TẮC NÊN</span>
-        <h2 class="card-title">TUYÊN NGÔN LÀM CHỦ AI</h2>
-
-        <div class="field-group">
-          <label class="field-label">1. Em cam kết NÊN:</label>
-          <div class="write-lines">
-            <div class="dotted-line"></div>
-            <div class="dotted-line"></div>
-          </div>
+      <!-- Phiếu Mini Nên 4 -->
+      <div class="mini-worksheet card-do">
+        <span class="cut-indicator">✂️ Cắt phiếu mini</span>
+        <div class="ws-header">
+          <span class="ws-tag">TRƯỜNG THCS: .............................</span>
+          <span class="ws-tag" style="color:#15803d; font-weight:800;">PHIẾU SỐ 04-A</span>
         </div>
 
-        <div class="field-group">
-          <label class="field-label">2. Để đảm bảo:</label>
-          <div class="write-lines">
-            <div class="dotted-line"></div>
-          </div>
-        </div>
-
-        <div class="footer-signer">
-          <div>Họ tên: <span class="signer-line" style="min-width: 110px;"></span></div>
+        <div class="student-info-row">
+          <div>Họ và tên: <span class="line-text" style="min-width: 130px;"></span></div>
           <div>Lớp: 6/....</div>
+        </div>
+
+        <div class="ws-title-box">
+          <h2 class="ws-main-title">PHIẾU HỌC TẬP MINI</h2>
+          <span class="ws-sub-title">TUYÊN NGÔN LÀM CHỦ AI • QUY TẮC NÊN</span>
+        </div>
+
+        <div class="task-block">
+          <label class="task-label">1. Em cam kết NÊN:</label>
+          <div class="write-lines">
+            <div class="dotted-line"></div>
+            <div class="dotted-line"></div>
+          </div>
+        </div>
+
+        <div class="task-block">
+          <label class="task-label">2. Để đảm bảo / Vì lý do:</label>
+          <div class="write-lines">
+            <div class="dotted-line"></div>
+          </div>
+        </div>
+
+        <div class="ws-footer">
+          <div><em>(Dán lên Bảng Lớp)</em></div>
+          <div class="signer-box">
+            Chữ ký học sinh: <span class="sign-space"></span>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- TRANG IN SỐ 2: BỘ 4 THẺ QUY TẮC "KHÔNG NÊN" (DON'T) -->
+  <!-- TRANG IN SỐ 2: 4 PHIẾU HỌC TẬP MINI "QUY TẮC KHÔNG NÊN" (DON'T) -->
   <section class="a4-sheet">
     <div class="sheet-meta-title">
-      <span style="color:#e11d48;">🔴 BỘ THẺ QUY TẮC "KHÔNG NÊN" (DON'T) — CẮT THEO ĐƯỜNG NÉT ĐỨT</span>
-      <span>TRƯỜNG THCS • LỚP 6</span>
+      <span style="color:#e11d48;">🔴 PHIẾU HỌC TẬP MINI: QUY TẮC KHÔNG NÊN (MẪU 02) — CẮT THEO ĐƯỜNG NÉT ĐỨT</span>
+      <span>MÔN TIN HỌC 6 • TIẾT 2</span>
     </div>
 
     <div class="cards-grid">
-      <!-- Thẻ Không Nên 1 -->
-      <div class="pledge-card card-dont">
-        <span class="scissors-cut">✂️ Cắt tại đây</span>
-        <span class="card-badge">🔴 QUY TẮC KHÔNG NÊN</span>
-        <h2 class="card-title">TUYÊN NGÔN LÀM CHỦ AI</h2>
-
-        <div class="field-group">
-          <label class="field-label">1. Em cam kết KHÔNG NÊN:</label>
-          <div class="write-lines">
-            <div class="dotted-line"></div>
-            <div class="dotted-line"></div>
-          </div>
+      <!-- Phiếu Mini Không Nên 1 -->
+      <div class="mini-worksheet card-dont">
+        <span class="cut-indicator">✂️ Cắt phiếu mini</span>
+        <div class="ws-header">
+          <span class="ws-tag">TRƯỜNG THCS: .............................</span>
+          <span class="ws-tag" style="color:#be123c; font-weight:800;">PHIẾU SỐ 04-B</span>
         </div>
 
-        <div class="field-group">
-          <label class="field-label">2. Vì hậu quả:</label>
-          <div class="write-lines">
-            <div class="dotted-line"></div>
-          </div>
-        </div>
-
-        <div class="footer-signer">
-          <div>Họ tên: <span class="signer-line" style="min-width: 110px;"></span></div>
+        <div class="student-info-row">
+          <div>Họ và tên: <span class="line-text" style="min-width: 130px;"></span></div>
           <div>Lớp: 6/....</div>
+        </div>
+
+        <div class="ws-title-box">
+          <h2 class="ws-main-title">PHIẾU HỌC TẬP MINI</h2>
+          <span class="ws-sub-title">TUYÊN NGÔN LÀM CHỦ AI • KHÔNG NÊN</span>
+        </div>
+
+        <div class="task-block">
+          <label class="task-label">1. Em cam kết KHÔNG NÊN:</label>
+          <div class="write-lines">
+            <div class="dotted-line"></div>
+            <div class="dotted-line"></div>
+          </div>
+        </div>
+
+        <div class="task-block">
+          <label class="task-label">2. Vì hậu quả:</label>
+          <div class="write-lines">
+            <div class="dotted-line"></div>
+          </div>
+        </div>
+
+        <div class="ws-footer">
+          <div><em>(Dán lên Bảng Lớp)</em></div>
+          <div class="signer-box">
+            Chữ ký học sinh: <span class="sign-space"></span>
+          </div>
         </div>
       </div>
 
-      <!-- Thẻ Không Nên 2 -->
-      <div class="pledge-card card-dont">
-        <span class="scissors-cut">✂️ Cắt tại đây</span>
-        <span class="card-badge">🔴 QUY TẮC KHÔNG NÊN</span>
-        <h2 class="card-title">TUYÊN NGÔN LÀM CHỦ AI</h2>
-
-        <div class="field-group">
-          <label class="field-label">1. Em cam kết KHÔNG NÊN:</label>
-          <div class="write-lines">
-            <div class="dotted-line"></div>
-            <div class="dotted-line"></div>
-          </div>
+      <!-- Phiếu Mini Không Nên 2 -->
+      <div class="mini-worksheet card-dont">
+        <span class="cut-indicator">✂️ Cắt phiếu mini</span>
+        <div class="ws-header">
+          <span class="ws-tag">TRƯỜNG THCS: .............................</span>
+          <span class="ws-tag" style="color:#be123c; font-weight:800;">PHIẾU SỐ 04-B</span>
         </div>
 
-        <div class="field-group">
-          <label class="field-label">2. Vì hậu quả:</label>
-          <div class="write-lines">
-            <div class="dotted-line"></div>
-          </div>
-        </div>
-
-        <div class="footer-signer">
-          <div>Họ tên: <span class="signer-line" style="min-width: 110px;"></span></div>
+        <div class="student-info-row">
+          <div>Họ và tên: <span class="line-text" style="min-width: 130px;"></span></div>
           <div>Lớp: 6/....</div>
+        </div>
+
+        <div class="ws-title-box">
+          <h2 class="ws-main-title">PHIẾU HỌC TẬP MINI</h2>
+          <span class="ws-sub-title">TUYÊN NGÔN LÀM CHỦ AI • KHÔNG NÊN</span>
+        </div>
+
+        <div class="task-block">
+          <label class="task-label">1. Em cam kết KHÔNG NÊN:</label>
+          <div class="write-lines">
+            <div class="dotted-line"></div>
+            <div class="dotted-line"></div>
+          </div>
+        </div>
+
+        <div class="task-block">
+          <label class="task-label">2. Vì hậu quả:</label>
+          <div class="write-lines">
+            <div class="dotted-line"></div>
+          </div>
+        </div>
+
+        <div class="ws-footer">
+          <div><em>(Dán lên Bảng Lớp)</em></div>
+          <div class="signer-box">
+            Chữ ký học sinh: <span class="sign-space"></span>
+          </div>
         </div>
       </div>
 
-      <!-- Thẻ Không Nên 3 -->
-      <div class="pledge-card card-dont">
-        <span class="scissors-cut">✂️ Cắt tại đây</span>
-        <span class="card-badge">🔴 QUY TẮC KHÔNG NÊN</span>
-        <h2 class="card-title">TUYÊN NGÔN LÀM CHỦ AI</h2>
-
-        <div class="field-group">
-          <label class="field-label">1. Em cam kết KHÔNG NÊN:</label>
-          <div class="write-lines">
-            <div class="dotted-line"></div>
-            <div class="dotted-line"></div>
-          </div>
+      <!-- Phiếu Mini Không Nên 3 -->
+      <div class="mini-worksheet card-dont">
+        <span class="cut-indicator">✂️ Cắt phiếu mini</span>
+        <div class="ws-header">
+          <span class="ws-tag">TRƯỜNG THCS: .............................</span>
+          <span class="ws-tag" style="color:#be123c; font-weight:800;">PHIẾU SỐ 04-B</span>
         </div>
 
-        <div class="field-group">
-          <label class="field-label">2. Vì hậu quả:</label>
-          <div class="write-lines">
-            <div class="dotted-line"></div>
-          </div>
-        </div>
-
-        <div class="footer-signer">
-          <div>Họ tên: <span class="signer-line" style="min-width: 110px;"></span></div>
+        <div class="student-info-row">
+          <div>Họ và tên: <span class="line-text" style="min-width: 130px;"></span></div>
           <div>Lớp: 6/....</div>
+        </div>
+
+        <div class="ws-title-box">
+          <h2 class="ws-main-title">PHIẾU HỌC TẬP MINI</h2>
+          <span class="ws-sub-title">TUYÊN NGÔN LÀM CHỦ AI • KHÔNG NÊN</span>
+        </div>
+
+        <div class="task-block">
+          <label class="task-label">1. Em cam kết KHÔNG NÊN:</label>
+          <div class="write-lines">
+            <div class="dotted-line"></div>
+            <div class="dotted-line"></div>
+          </div>
+        </div>
+
+        <div class="task-block">
+          <label class="task-label">2. Vì hậu quả:</label>
+          <div class="write-lines">
+            <div class="dotted-line"></div>
+          </div>
+        </div>
+
+        <div class="ws-footer">
+          <div><em>(Dán lên Bảng Lớp)</em></div>
+          <div class="signer-box">
+            Chữ ký học sinh: <span class="sign-space"></span>
+          </div>
         </div>
       </div>
 
-      <!-- Thẻ Không Nên 4 -->
-      <div class="pledge-card card-dont">
-        <span class="scissors-cut">✂️ Cắt tại đây</span>
-        <span class="card-badge">🔴 QUY TẮC KHÔNG NÊN</span>
-        <h2 class="card-title">TUYÊN NGÔN LÀM CHỦ AI</h2>
-
-        <div class="field-group">
-          <label class="field-label">1. Em cam kết KHÔNG NÊN:</label>
-          <div class="write-lines">
-            <div class="dotted-line"></div>
-            <div class="dotted-line"></div>
-          </div>
+      <!-- Phiếu Mini Không Nên 4 -->
+      <div class="mini-worksheet card-dont">
+        <span class="cut-indicator">✂️ Cắt phiếu mini</span>
+        <div class="ws-header">
+          <span class="ws-tag">TRƯỜNG THCS: .............................</span>
+          <span class="ws-tag" style="color:#be123c; font-weight:800;">PHIẾU SỐ 04-B</span>
         </div>
 
-        <div class="field-group">
-          <label class="field-label">2. Vì hậu quả:</label>
-          <div class="write-lines">
-            <div class="dotted-line"></div>
-          </div>
-        </div>
-
-        <div class="footer-signer">
-          <div>Họ tên: <span class="signer-line" style="min-width: 110px;"></span></div>
+        <div class="student-info-row">
+          <div>Họ và tên: <span class="line-text" style="min-width: 130px;"></span></div>
           <div>Lớp: 6/....</div>
+        </div>
+
+        <div class="ws-title-box">
+          <h2 class="ws-main-title">PHIẾU HỌC TẬP MINI</h2>
+          <span class="ws-sub-title">TUYÊN NGÔN LÀM CHỦ AI • KHÔNG NÊN</span>
+        </div>
+
+        <div class="task-block">
+          <label class="task-label">1. Em cam kết KHÔNG NÊN:</label>
+          <div class="write-lines">
+            <div class="dotted-line"></div>
+            <div class="dotted-line"></div>
+          </div>
+        </div>
+
+        <div class="task-block">
+          <label class="task-label">2. Vì hậu quả:</label>
+          <div class="write-lines">
+            <div class="dotted-line"></div>
+          </div>
+        </div>
+
+        <div class="ws-footer">
+          <div><em>(Dán lên Bảng Lớp)</em></div>
+          <div class="signer-box">
+            Chữ ký học sinh: <span class="sign-space"></span>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- HƯỚNG DẪN TẠO GÓC TUYÊN NGÔN TRÊN BẢNG LỚP -->
-  <section class="wall-guide">
-    <h3>📌 Hướng Dẫn Giáo Viên: Tạo Góc "Tuyên Ngôn Làm Chủ AI" Trên Bảng Lớp</h3>
+  <!-- HƯỚNG DẪN TỔ CHỨC KHÔNG GIAN BẢNG LỚP -->
+  <section class="board-plan">
+    <h3>📌 Hướng Dẫn Sư Phạm: Trưng Bày Phiếu Học Tập Mini Lên Bảng Lớp</h3>
     <p>
-      Vào 15 phút cuối của Tiết 2, giáo viên chia bảng lớp thành 2 cột bằng phấn màu (hoặc dán giấy roki khổ lớn). Phát cho mỗi học sinh 1 tấm thẻ (xanh hoặc đỏ). Học sinh suy nghĩ và ghi trong 3 phút, sau đó từng tổ xếp hàng lên dán thẻ của mình lên bảng.
+      Vào 15 phút cuối của Tiết 2, giáo viên chia bảng lớp thành 2 phần: <strong>CỘT XANH (NÊN LÀM)</strong> và <strong>CỘT ĐỎ (KHÔNG NÊN LÀM)</strong>. Mỗi học sinh sau khi hoàn thành phiếu học tập mini của mình sẽ bước lên dán vào cột tương ứng.
     </p>
 
-    <div class="wall-mockup">
-      <div class="mockup-col col-green">
-        <h4 style="color: #34d399;">CỘT XANH: ĐIỀU NÊN LÀM (DO)</h4>
+    <div class="board-layout-demo">
+      <div class="board-pane pane-do">
+        <h4 style="color: #34d399;">CỘT DÁN PHIẾU MINI: QUY TẮC NÊN (DO)</h4>
         <ul>
           <li>• NÊN tự suy nghĩ dàn ý trước khi hỏi gợi ý từ AI.</li>
           <li>• NÊN kiểm tra chéo kiến thức với sách giáo khoa chuẩn.</li>
@@ -637,11 +808,11 @@
         </ul>
       </div>
 
-      <div class="mockup-col col-red">
-        <h4 style="color: #fb7185;">CỘT ĐỎ: ĐIỀU KHÔNG NÊN LÀM (DON'T)</h4>
+      <div class="board-pane pane-dont">
+        <h4 style="color: #fb7185;">CỘT DÁN PHIẾU MINI: QUY TẮC KHÔNG NÊN (DON'T)</h4>
         <ul>
           <li>• KHÔNG NÊN copy nguyên văn bài của AI đem nộp.</li>
-          <li>• KHÔNG NÊN tin tưởng 100% mọi điều AI nói.</li>
+          <li>• KHÔNG NÊN tin tưởng 100% mọi điều AI nói mà không kiểm chứng.</li>
           <li>• KHÔNG NÊN đổ lỗi cho máy tính khi bài bị điểm kém.</li>
         </ul>
       </div>

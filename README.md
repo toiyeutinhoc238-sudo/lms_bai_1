@@ -34,9 +34,9 @@
    - **Bảng Rubric đánh giá chéo (Thang 10 điểm):** Tiêu chí chấm điểm chi tiết giữa các nhóm.
 
 3. **`the_tuyen_ngon_lam_chu_ai.html` (Hoạt động 4 - 15 phút)**
-   - Bộ thẻ Note màu xanh/đỏ chuẩn in ấn khổ A4 (4 thẻ/trang kèm viền nét đứt cắt kéo ✂️).
-   - Thẻ xanh: Quy tắc **NÊN** (DO) | Thẻ đỏ: Quy tắc **KHÔNG NÊN** (DON'T).
-   - Học sinh viết cam kết và dán lên bảng lớp tạo không gian *"Tuyên ngôn làm chủ AI"*.
+   - **Phiếu học tập cá nhân mini** (kích cỡ A6 chuẩn, 4 phiếu/trang A4 kèm viền cắt nét đứt ✂️).
+   - Phiếu xanh: Quy tắc **NÊN** (DO) | Phiếu đỏ: Quy tắc **KHÔNG NÊN** (DON'T).
+   - Học sinh hoàn thành phiếu học tập mini và dán lên bảng lớp tạo không gian *"Tuyên ngôn làm chủ AI"*.
 
 4. **`HOC_LIEU_TRUC_TIEP_TIET_2.md`**
    - Tài liệu sư phạm phân tích chi tiết tiến trình giảng dạy 45 phút Tiết 2.

@@ -10,7 +10,7 @@
 1. **Học liệu 1: Slide trình chiếu trực quan so sánh "Xe đạp điện" và "Robot hút bụi" (Hoạt động 2.3 - 10 phút)**
 2. **Học liệu 2: Phiếu học tập nhóm - Phân tích 2 tình huống sự cố (Case Study) khi tin tưởng mù quáng vào AI (Hoạt động 3 - 20 phút)**
 3. **Học liệu 3: Mẫu Bảng phụ báo cáo nhóm (Khổ A3/A2) & Tiêu chí đánh giá Rubric chấm chéo (Hoạt động 3)**
-4. **Học liệu 4: Bộ thẻ Note "Tuyên ngôn làm chủ AI" (NÊN / KHÔNG NÊN) dán góc tuyên ngôn lớp học (Hoạt động 4 - 15 phút)**
+4. **Học liệu 4: Phiếu học tập cá nhân mini "Tuyên ngôn làm chủ AI" (NÊN / KHÔNG NÊN) dán không gian tuyên ngôn trên bảng lớp (Hoạt động 4 - 15 phút)**
 
 ---
 
@@ -105,25 +105,26 @@ Nhiệm vụ: Đọc kỹ 2 tình huống dưới đây, thảo luận và trả
 
 ---
 
-# HỌC LIỆU 4: PHIẾU GHI "TUYÊN NGÔN LÀM CHỦ AI" (HOẠT ĐỘNG 4 - VẬN DỤNG)
+# HỌC LIỆU 4: PHIẾU HỌC TẬP MINI "TUYÊN NGÔN LÀM CHỦ AI" (HOẠT ĐỘNG 4 - VẬN DỤNG)
 **Thời lượng:** 15 phút  
-**Hình thức:** Phát cho mỗi học sinh 1 phiếu Note màu (xanh hoặc cam), viết trong 3 phút rồi lên dán vào "Góc Tuyên Ngôn Làm Chủ AI Lớp 6..." trên bảng lớp.  
+**Hình thức:** Phát cho mỗi học sinh 1 Phiếu học tập mini (kích thước A6 chuẩn, màu xanh hoặc đỏ), học sinh điền nội dung trong 3 phút rồi đem dán lên không gian "Tuyên ngôn làm chủ AI" trên bảng lớp.  
 **Tệp in ấn:** [`the_tuyen_ngon_lam_chu_ai.html`](file:///c:/Users/BRAVO%2015/Downloads/LMS%20bài%201/the_tuyen_ngon_lam_chu_ai.html)
 
-### MẪU NỘI DUNG TRÊN CÁC THẺ TUYÊN NGÔN:
+### MẪU NỘI DUNG TRÊN CÁC PHIẾU HỌC TẬP MINI:
 
-#### MẪU THẺ 1: QUY TẮC "NÊN" (VIỀN XANH LÁ)
+#### MẪU PHIẾU 1: QUY TẮC "NÊN" (PHIẾU XANH LÁ)
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ 🟢 TUYÊN NGÔN LÀM CHỦ AI LỚP 6...               [ NÊN ]     │
+│ 🟢 PHIẾU HỌC TẬP MINI: TUYÊN NGÔN LÀM CHỦ AI     [ NÊN ]     │
 ├─────────────────────────────────────────────────────────────┤
-│ Em cam kết NÊN:                                             │
+│ Họ và tên: ............................. Lớp: 6/....        │
+│ 1. Em cam kết NÊN:                                          │
 │ ........................................................... │
 │ ........................................................... │
-│ Để đảm bảo:                                                 │
+│ 2. Để đảm bảo / Vì lý do:                                   │
 │ ........................................................... │
 │                                                             │
-│ Người cam kết: .............................  Lớp: 6/....   │
+│ Chữ ký học sinh: .................... (Dán lên bảng lớp)   │
 └─────────────────────────────────────────────────────────────┘
 ```
 *Gợi ý câu trả lời sáng tạo của học sinh:*
@@ -133,21 +134,23 @@ Nhiệm vụ: Đọc kỹ 2 tình huống dưới đây, thảo luận và trả
 
 ---
 
-#### MẪU THẺ 2: QUY TẮC "KHÔNG NÊN" (VIỀN ĐỎ/CAM)
+#### MẪU PHIẾU 2: QUY TẮC "KHÔNG NÊN" (PHIẾU ĐỎ)
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ 🔴 TUYÊN NGÔN LÀM CHỦ AI LỚP 6...          [ KHÔNG NÊN ]   │
+│ 🔴 PHIẾU HỌC TẬP MINI: TUYÊN NGÔN LÀM CHỦ AI   [ KHÔNG NÊN ] │
 ├─────────────────────────────────────────────────────────────┤
-│ Em cam kết KHÔNG NÊN:                                       │
+│ Họ và tên: ............................. Lớp: 6/....        │
+│ 1. Em cam kết KHÔNG NÊN:                                    │
 │ ........................................................... │
 │ ........................................................... │
-│ Vì hậu quả:                                                 │
+│ 2. Vì hậu quả:                                              │
 │ ........................................................... │
 │                                                             │
-│ Người cam kết: .............................  Lớp: 6/....   │
+│ Chữ ký học sinh: .................... (Dán lên bảng lớp)   │
 └─────────────────────────────────────────────────────────────┘
 ```
 *Gợi ý câu trả lời sáng tạo của học sinh:*
 - *"KHÔNG NÊN sao chép nguyên văn bài làm của AI nộp cho thầy cô."*
 - *"KHÔNG NÊN tin tưởng 100% mọi điều AI nói mà không kiểm chứng."*
 - *"KHÔNG NÊN đổ lỗi cho máy tính khi bài làm của mình bị điểm kém."*
+
