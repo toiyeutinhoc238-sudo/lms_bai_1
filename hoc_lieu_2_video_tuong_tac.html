@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video tương tác SCORM/H5P - Bản chất của AI: AI từ đâu mà có?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4338ca;
+      --primary-light: #6366f1;
+      --secondary: #06b6d4;
+      --accent: #f59e0b;
+      --success: #10b981;
+      --danger: #ef4444;
+      --bg: #090d16;
+      --card: #1e1b4b;
+      --text: #ffffff;
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Nunito', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: #0f172a;
+      color: var(--text);
+      padding: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .player-container {
+      background: #020617;
+      width: 100%;
+      max-width: 880px;
+      border-radius: var(--radius);
+      box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* Top bar info */
+    .player-header {
+      background: linear-gradient(90deg, #1e1b4b, #312e81);
+      padding: 12px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .header-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .scorm-badge {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Screen Stage */
+    .screen-stage {
+      height: 420px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+      background: radial-gradient(circle at center, #1e1b4b 0%, #030712 100%);
+      overflow: hidden;
+    }
+
+    .scene-art {
+      width: 100%;
+      max-width: 320px;
+      height: 160px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .graphic-box {
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px dashed rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 70px;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+
+    .sub-badge {
+      position: absolute;
+      bottom: 8px;
+      background: rgba(0, 0, 0, 0.75);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+
+    .scene-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #f8fafc;
+      margin-bottom: 8px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+    }
+
+    .subtitle-box {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(8px);
+      border-left: 4px solid var(--accent);
+      border-radius: 10px;
+      padding: 10px 18px;
+      max-width: 680px;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #e2e8f0;
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Pop-up checkpoint modal */
+    .checkpoint-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(3, 7, 18, 0.92);
+      backdrop-filter: blur(10px);
+      z-index: 20;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      animation: modalFadeIn 0.3s ease;
+    }
+
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .popup-box {
+      background: #ffffff;
+      color: #0f172a;
+      border-radius: 18px;
+      width: 100%;
+      max-width: 620px;
+      padding: 24px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .popup-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .popup-tag {
+      background: #fef3c7;
+      color: #b45309;
+      font-weight: 800;
+      font-size: 0.8rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    .popup-q {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #1e1b4b;
+      margin-bottom: 16px;
+      line-height: 1.45;
+    }
+
+    .pop-opt-btn {
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin-bottom: 10px;
+      width: 100%;
+      text-align: left;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #334155;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .pop-opt-btn:hover {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+    }
+
+    .popup-feedback {
+      display: none;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      line-height: 1.45;
+      margin-top: 12px;
+    }
+
+    .popup-feedback.success {
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #86efac;
+    }
+
+    .popup-feedback.error {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fca5a5;
+    }
+
+    .btn-resume {
+      display: none;
+      background: var(--primary-light);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 800;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 14px;
+      transition: all 0.2s;
+    }
+
+    .btn-resume:hover {
+      background: var(--primary);
+    }
+
+    /* Controls Bar */
+    .controls-bar {
+      background: #090d16;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .play-btn {
+      background: var(--primary-light);
+      border: none;
+      color: white;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+
+    .play-btn:hover {
+      transform: scale(1.08);
+      background: var(--primary);
+    }
+
+    .time-lbl {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #94a3b8;
+      min-width: 85px;
+    }
+
+    .timeline-track {
+      flex: 1;
+      height: 12px;
+      background: #1e293b;
+      border-radius: 999px;
+      position: relative;
+      cursor: not-allowed; /* Locked scrubbing per SCORM anti-skip */
+    }
+
+    .timeline-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #6366f1, #06b6d4);
+      border-radius: 999px;
+      transition: width 0.15s linear;
+    }
+
+    .checkpoint-flag {
+      position: absolute;
+      top: -4px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #f59e0b;
+      border: 2px solid white;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 900;
+      color: #0f172a;
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.6);
+      cursor: pointer;
+    }
+
+    .checkpoint-flag.passed {
+      background: #10b981;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
+    }
+
+    .score-indicator {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.1);
+      padding: 6px 14px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    /* Sound mute button */
+    .mute-btn {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 6px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+
+    /* Completion Banner */
+    .completion-banner {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.95);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+      z-index: 30;
+      animation: modalFadeIn 0.4s ease;
+    }
+  </style>
+</head>
+<body>
+
+<div class="player-container">
+  <!-- Top Bar -->
+  <div class="player-header">
+    <div class="header-title">
+      <span>🎬</span>
+      <span>HỌC LIỆU 2: VIDEO TƯƠNG TÁC (SCORM / H5P) - BẢN CHẤT CỦA AI</span>
+    </div>
+    <div class="scorm-badge" id="scorm-status">SCORM: ĐANG TỰ HỌC</div>
+  </div>
+
+  <!-- Stage Screen -->
+  <div class="screen-stage">
+    <div class="scene-art">
+      <div class="graphic-box" id="scene-icon">🤖</div>
+      <div class="sub-badge" id="scene-tag">MỞ ĐẦU BÀI HỌC</div>
+    </div>
+    <h3 class="scene-title" id="scene-title">Khám phá: AI từ đâu sinh ra?</h3>
+    <div class="subtitle-box" id="subtitle-box">
+      Nhấn nút ▶ Play bên dưới để bắt đầu xem video bài học. (Không được tua vượt qua câu hỏi).
+    </div>
+
+    <!-- Checkpoint Pop-up Overlay -->
+    <div class="checkpoint-overlay" id="checkpoint-overlay">
+      <div class="popup-box">
+        <div class="popup-header">
+          <span class="popup-tag" id="pop-checkpoint-lbl">📍 NEO CHẶN 1 / 3</span>
+          <span style="font-size: 0.82rem; font-weight: 700; color: #64748b;">Khóa tua bài học</span>
+        </div>
+        <div class="popup-q" id="pop-q-text">Nội dung câu hỏi...</div>
+        <div id="pop-options-box"></div>
+        <div class="popup-feedback" id="pop-feedback-box"></div>
+        <button class="btn-resume" id="btn-resume" onclick="closeCheckpoint()">Xem tiếp bài học ➔</button>
+      </div>
+    </div>
+
+    <!-- Completion Screen -->
+    <div class="completion-banner" id="completion-banner">
+      <div style="font-size: 65px; margin-bottom: 12px;">🎉</div>
+      <h2 style="font-size: 1.6rem; color: #34d399; margin-bottom: 8px;">XUẤT SẮC! HOÀN THÀNH VIDEO TƯƠNG TÁC</h2>
+      <p style="color: #cbd5e1; max-width: 540px; margin-bottom: 20px; line-height: 1.5;">
+        Em đã xem đạt 100% video và trả lời đúng tất cả các câu hỏi neo chặn của UNESCO. Điểm số SCORM đã được tự động đồng bộ vào LMS Gradebook.
+      </p>
+      <div style="background: rgba(255,255,255,0.1); padding: 10px 24px; border-radius: 12px; margin-bottom: 20px; font-size: 1.2rem; font-weight: 800; color: #38bdf8;">
+        Tổng điểm: <span id="final-score">30 / 30 điểm (100%)</span>
+      </div>
+      <button class="play-btn" style="width: auto; padding: 12px 28px; border-radius: 12px; font-size: 1rem; font-weight: 800;" onclick="replayVideo()">
+        🔄 Xem lại video
+      </button>
+    </div>
+  </div>
+
+  <!-- Timeline Controls -->
+  <div class="controls-bar">
+    <button class="play-btn" id="play-toggle-btn" onclick="togglePlayState()">▶</button>
+    <span class="time-lbl" id="time-display">00:00 / 05:30</span>
+
+    <div class="timeline-track" title="Chế độ SCORM: Khóa thanh tua lướt">
+      <div class="timeline-fill" id="timeline-fill"></div>
+      
+      <!-- Checkpoint 1 (at 25% ~ 01:45) -->
+      <div class="checkpoint-flag" id="flag-1" style="left: 25%;" title="Neo chặn 1: Human-led">1</div>
+      <!-- Checkpoint 2 (at 60% ~ 03:15) -->
+      <div class="checkpoint-flag" id="flag-2" style="left: 60%;" title="Neo chặn 2: 3 bước tạo ra AI">2</div>
+      <!-- Checkpoint 3 (at 85% ~ 04:30) -->
+      <div class="checkpoint-flag" id="flag-3" style="left: 85%;" title="Neo chặn 3: Con người chịu trách nhiệm">3</div>
+    </div>
+
+    <div class="score-indicator" id="score-indicator">Điểm: 0/30</div>
+    <button class="mute-btn" id="mute-btn" onclick="toggleSound()">🔊 Âm thanh</button>
+  </div>
+</div>
+
+<script>
+  // Web Audio for Sound Effects
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  let soundEnabled = true;
+
+  function playSound(type) {
+    if (!soundEnabled) return;
+    try {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      const now = audioCtx.currentTime;
+
+      if (type === 'pop') {
+        osc.frequency.setValueAtTime(440, now);
+        osc.frequency.setValueAtTime(880, now + 0.1);
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+        osc.start(now);
+        osc.stop(now + 0.25);
+      } else if (type === 'correct') {
+        osc.frequency.setValueAtTime(523, now);
+        osc.frequency.setValueAtTime(659, now + 0.1);
+        osc.frequency.setValueAtTime(784, now + 0.2);
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+        osc.start(now);
+        osc.stop(now + 0.4);
+      } else if (type === 'wrong') {
+        osc.frequency.setValueAtTime(220, now);
+        osc.frequency.setValueAtTime(180, now + 0.12);
+        gain.gain.setValueAtTime(0.25, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+        osc.start(now);
+        osc.stop(now + 0.35);
+      }
+    } catch(e) {}
+  }
+
+  function toggleSound() {
+    soundEnabled = !soundEnabled;
+    document.getElementById('mute-btn').innerText = soundEnabled ? '🔊 Âm thanh' : '🔇 Tắt âm';
+  }
+
+  // Video Timeline & State
+  let isPlaying = false;
+  let currentTime = 0;
+  const totalDuration = 330; // 5 mins 30 seconds
+  let timerId = null;
+  let userScore = 0;
+
+  const checkpointData = [
+    {
+      id: 1,
+      triggerTime: 82, // 25%
+      tag: "📍 NEO CHẶN 1 (01:45): BẢN CHẤT AI",
+      q: "Theo chuẩn tài liệu quốc tế UNESCO, tại sao khẳng định Trí tuệ nhân tạo (AI) là công nghệ do con người dẫn dắt (Human-led)?",
+      options: [
+        { text: "A. Vì AI tự phát triển ý thức và tự làm chủ thế giới mà không cần ai dạy", correct: false },
+        { text: "B. Vì AI hoàn toàn do con người thu thập dữ liệu, lập trình thuật toán và quyết định mục đích sử dụng", correct: true },
+        { text: "C. Vì con người chỉ đứng ngoài quan sát các robot tự chế tạo ra nhau", correct: false },
+        { text: "D. Vì AI tự sinh ra từ các dây cáp mạng Internet", correct: false }
+      ],
+      feedback: "Chính xác tuyệt đối! Con người luôn là chủ thể khởi xướng, lập trình và dẫn dắt AI hoạt động.",
+      passed: false
+    },
+    {
+      id: 2,
+      triggerTime: 198, // 60%
+      tag: "📍 NEO CHẶN 2 (03:15): 3 BƯỚC TẠO RA AI",
+      q: "Để xây dựng một hệ thống AI nhận diện giọng nói, bước đầu tiên quan trọng nhất mà con người phải làm là gì?",
+      options: [
+        { text: "A. Cắm sạc pin điện thoại để chạy phần mềm liên tục", correct: false },
+        { text: "B. Thu thập hàng triệu tệp âm thanh giọng nói mẫu đa dạng từ nhiều vùng miền (Thu thập Dữ liệu)", correct: true },
+        { text: "C. Bật micrô và để máy tính tự suy nghĩ", correct: false }
+      ],
+      feedback: "Rất chuẩn! Dữ liệu (Data) do con người thu thập chính là nền móng để huấn luyện AI.",
+      passed: false
+    },
+    {
+      id: 3,
+      triggerTime: 280, // 85%
+      tag: "📍 NEO CHẶN 3 (04:30): QUYỀN QUYẾT ĐỊNH & TRÁCH NHIỆM",
+      q: "Khi một ứng dụng AI nhận nhầm hình ảnh chiếc bánh muffin thành chú chó con, nguyên nhân gốc rễ và trách nhiệm thuộc về ai?",
+      options: [
+        { text: "A. Lỗi do chiếc bánh muffin cố tình biến hình trước ống kính camera", correct: false },
+        { text: "B. Do dữ liệu con người cung cấp chưa đủ phong phú hoặc thuật toán còn hạn chế; kỹ sư con người phải chịu trách nhiệm sửa lỗi", correct: true },
+        { text: "C. Lỗi do AI giận dữ và tự ý đưa ra kết quả sai để trêu đùa người dùng", correct: false }
+      ],
+      feedback: "Xuất sắc! AI không có cảm xúc hay ý thức. Con người luôn là bên giám sát và chịu trách nhiệm giải trình cuối cùng.",
+      passed: false
+    }
+  ];
+
+  function togglePlayState() {
+    if (isPlaying) {
+      pauseVideo();
+    } else {
+      playVideo();
+    }
+  }
+
+  function playVideo() {
+    isPlaying = true;
+    document.getElementById('play-toggle-btn').innerText = '❚❚';
+    timerId = setInterval(tick, 350);
+  }
+
+  function pauseVideo() {
+    isPlaying = false;
+    document.getElementById('play-toggle-btn').innerText = '▶';
+    clearInterval(timerId);
+  }
+
+  function formatTime(sec) {
+    const m = Math.floor(sec / 60).toString().padStart(2, '0');
+    const s = Math.floor(sec % 60).toString().padStart(2, '0');
+    return `${m}:${s}`;
+  }
+
+  function tick() {
+    currentTime += 3;
+    if (currentTime >= totalDuration) {
+      currentTime = totalDuration;
+      pauseVideo();
+      finishVideo();
+      return;
+    }
+
+    // Render Time & Progress
+    document.getElementById('time-display').innerText = `${formatTime(currentTime)} / 05:30`;
+    const pct = (currentTime / totalDuration) * 100;
+    document.getElementById('timeline-fill').style.width = `${pct}%`;
+
+    // Dynamic Scenes Update
+    updateSceneContent(currentTime);
+
+    // Check Checkpoints Trigger
+    checkpointData.forEach(cp => {
+      if (!cp.passed && currentTime >= cp.triggerTime) {
+        showCheckpoint(cp);
+      }
+    });
+  }
+
+  function updateSceneContent(t) {
+    const icon = document.getElementById('scene-icon');
+    const tag = document.getElementById('scene-tag');
+    const title = document.getElementById('scene-title');
+    const sub = document.getElementById('subtitle-box');
+
+    if (t < 80) {
+      icon.innerText = '🤖';
+      tag.innerText = 'CẢNH 1: ĐẶT VẤN ĐỀ';
+      title.innerText = 'AI có phải là phép màu tự sinh ra không?';
+      sub.innerText = 'Nhiều người lầm tưởng AI tự xuất hiện giống như sinh vật tự nhiên. Nhưng sự thật là gì?';
+    } else if (t < 195) {
+      icon.innerText = '👨‍💻';
+      tag.innerText = 'CẢNH 2: HUMAN-LED';
+      title.innerText = 'Bản chất của AI: Do con người dẫn dắt';
+      sub.innerText = 'Theo UNESCO: AI hoàn toàn không tự sinh ra. Con người là chủ thể tạo ra, lập trình và kiểm soát AI.';
+    } else if (t < 275) {
+      icon.innerText = '📊';
+      tag.innerText = 'CẢNH 3: QUY TRÌNH 3 BƯỚC';
+      title.innerText = 'Dữ liệu (Data) ➔ Thuật toán (Algorithms) ➔ Huấn luyện';
+      sub.innerText = 'Muốn AI thông minh, con người phải nạp hàng triệu dữ liệu mẫu và viết thuật toán chỉ dẫn cho máy tính học.';
+    } else {
+      icon.innerText = '🚴';
+      tag.innerText = 'CẢNH 4: HUMAN IN THE LOOP';
+      title.innerText = 'AI như xe đạp điện: Con người luôn cầm lái & chịu trách nhiệm';
+      sub.innerText = 'AI có thể sai sót như nhầm chiếc bánh muffin với chú chó đốm. Con người luôn là người quyết định cuối cùng!';
+    }
+  }
+
+  function showCheckpoint(cp) {
+    pauseVideo();
+    playSound('pop');
+
+    const overlay = document.getElementById('checkpoint-overlay');
+    overlay.style.display = 'flex';
+    document.getElementById('pop-checkpoint-lbl').innerText = cp.tag;
+    document.getElementById('pop-q-text').innerText = cp.q;
+    document.getElementById('btn-resume').style.display = 'none';
+
+    const fbBox = document.getElementById('pop-feedback-box');
+    fbBox.style.display = 'none';
+
+    const optsBox = document.getElementById('pop-options-box');
+    optsBox.innerHTML = '';
+
+    cp.options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'pop-opt-btn';
+      btn.innerText = opt.text;
+      btn.onclick = () => {
+        if (opt.correct) {
+          playSound('correct');
+          btn.style.borderColor = '#10b981';
+          btn.style.background = '#dcfce7';
+          btn.style.color = '#065f46';
+          fbBox.className = 'popup-feedback success';
+          fbBox.style.display = 'block';
+          fbBox.innerHTML = '✔ ' + cp.feedback;
+          document.getElementById('btn-resume').style.display = 'block';
+
+          if (!cp.passed) {
+            cp.passed = true;
+            userScore += 10;
+            document.getElementById('score-indicator').innerText = `Điểm: ${userScore}/30`;
+            document.getElementById(`flag-${cp.id}`).classList.add('passed');
+            notifyLMS('SCORM_CHECKPOINT_PASSED', { checkpointId: cp.id, score: userScore });
+          }
+        } else {
+          playSound('wrong');
+          btn.style.borderColor = '#ef4444';
+          btn.style.background = '#fee2e2';
+          btn.style.color = '#991b1b';
+          fbBox.className = 'popup-feedback error';
+          fbBox.style.display = 'block';
+          fbBox.innerHTML = '✖ Chưa chính xác! Hãy đọc kỹ lại câu hỏi và chọn lại nhé.';
+        }
+      };
+      optsBox.appendChild(btn);
+    });
+  }
+
+  function closeCheckpoint() {
+    document.getElementById('checkpoint-overlay').style.display = 'none';
+    playVideo();
+  }
+
+  function finishVideo() {
+    document.getElementById('scorm-status').innerText = 'SCORM: ĐÃ HOÀN THÀNH 100%';
+    document.getElementById('scorm-status').style.background = '#059669';
+    document.getElementById('scorm-status').style.color = '#ffffff';
+    document.getElementById('final-score').innerText = `${userScore} / 30 điểm (${Math.round((userScore/30)*100)}%)`;
+    document.getElementById('completion-banner').style.display = 'flex';
+    playSound('correct');
+
+    notifyLMS('SCORM_LESSON_COMPLETED', {
+      lessonDuration: totalDuration,
+      score: userScore,
+      maxScore: 30,
+      completionStatus: 'completed',
+      successStatus: userScore >= 24 ? 'passed' : 'failed'
+    });
+  }
+
+  function replayVideo() {
+    currentTime = 0;
+    userScore = 0;
+    checkpointData.forEach(cp => {
+      cp.passed = false;
+      document.getElementById(`flag-${cp.id}`).classList.remove('passed');
+    });
+    document.getElementById('score-indicator').innerText = 'Điểm: 0/30';
+    document.getElementById('completion-banner').style.display = 'none';
+    document.getElementById('timeline-fill').style.width = '0%';
+    document.getElementById('time-display').innerText = '00:00 / 05:30';
+    playVideo();
+  }
+
+  function notifyLMS(type, payload) {
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ source: 'LMS_SCORM_VIDEO', type, payload }, '*');
+    }
+  }
+</script>
+
+</body>
+</html>
+

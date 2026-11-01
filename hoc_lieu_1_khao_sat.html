@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Khảo sát khởi động - Tin học 6: Nguồn gốc AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --success: #10b981;
+      --success-bg: #dcfce7;
+      --danger: #ef4444;
+      --danger-bg: #fee2e2;
+      --warning: #f59e0b;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Nunito', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: #f1f5f9;
+      color: var(--text);
+      padding: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    .embed-card {
+      background: var(--card-bg);
+      width: 100%;
+      max-width: 780px;
+      border-radius: var(--radius);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.07), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+      padding: 24px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .top-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #eef2ff;
+      color: var(--primary);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    h2 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #1e1b4b;
+      margin-bottom: 6px;
+      line-height: 1.35;
+    }
+
+    .desc {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      margin-bottom: 22px;
+    }
+
+    .question-block {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .q-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #1e293b;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      line-height: 1.45;
+    }
+
+    .q-num {
+      background: var(--primary);
+      color: white;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* Option buttons */
+    .option-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option-btn {
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 13px 16px;
+      text-align: left;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #334155;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+    }
+
+    .option-btn:hover:not(.disabled) {
+      border-color: #cbd5e1;
+      background: #f8fafc;
+      transform: translateY(-1px);
+    }
+
+    .option-btn.correct-choice {
+      border-color: var(--success) !important;
+      background: var(--success-bg) !important;
+      color: #166534 !important;
+    }
+
+    .option-btn.wrong-choice {
+      border-color: var(--danger) !important;
+      background: var(--danger-bg) !important;
+      color: #991b1b !important;
+    }
+
+    .mark-icon {
+      font-size: 1.1rem;
+      font-weight: 900;
+      margin-left: 10px;
+    }
+
+    .feedback-banner {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 10px;
+      font-size: 0.92rem;
+      line-height: 1.5;
+      font-weight: 700;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .feedback-banner.correct {
+      background: var(--success-bg);
+      color: #166534;
+      border: 1px solid #86efac;
+    }
+
+    .feedback-banner.wrong {
+      background: var(--danger-bg);
+      color: #991b1b;
+      border: 1px solid #fca5a5;
+    }
+
+    /* Input & Submission for Q2 */
+    .input-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .text-input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 2px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .text-input:focus {
+      border-color: var(--primary);
+    }
+
+    .btn-submit {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 0.92rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-submit:hover {
+      background: var(--primary-hover);
+    }
+
+    .user-record-box {
+      display: none;
+      margin-top: 14px;
+      background: white;
+      border: 1px solid #cbd5e1;
+      border-left: 4px solid var(--success);
+      padding: 14px 16px;
+      border-radius: 10px;
+      font-size: 0.92rem;
+      line-height: 1.5;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .status-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid #e2e8f0;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    .done-badge {
+      display: none;
+      background: #dcfce7;
+      color: #166534;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-weight: 800;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="embed-card">
+  <div class="top-badge">⚡ LMS HOẠT ĐỘNG 1 • KHỞI ĐỘNG (5 PHÚT)</div>
+  <h2>Khảo sát nhận thức ban đầu: Trí tuệ nhân tạo (AI)</h2>
+  <p class="desc">Em hãy trả lời 2 câu hỏi ngắn dưới đây để kiểm tra hiểu biết ban đầu trước khi vào bài học mới!</p>
+
+  <!-- CÂU HỎI 1 -->
+  <div class="question-block">
+    <div class="q-title">
+      <span class="q-num">1</span>
+      <span>Theo em, Trí tuệ nhân tạo (AI) tự sinh ra trong tự nhiên hay do con người tạo ra?</span>
+    </div>
+
+    <div class="option-list" id="q1-options">
+      <button class="option-btn" onclick="checkAnswer(this, 'A')">
+        <span>A. Tự sinh ra và tự tiến hóa trong tự nhiên giống động vật, cây cỏ</span>
+        <span class="mark-icon"></span>
+      </button>
+
+      <button class="option-btn" onclick="checkAnswer(this, 'B')">
+        <span>B. Do con người thu thập dữ liệu, viết thuật toán và huấn luyện máy tính</span>
+        <span class="mark-icon"></span>
+      </button>
+
+      <button class="option-btn" onclick="checkAnswer(this, 'C')">
+        <span>C. Do các robot siêu cấp ngoài không gian mang đến Trái Đất</span>
+        <span class="mark-icon"></span>
+      </button>
+
+      <button class="option-btn" onclick="checkAnswer(this, 'D')">
+        <span>D. Tự xuất hiện khi máy vi tính được cắm nguồn điện và kết nối Internet</span>
+        <span class="mark-icon"></span>
+      </button>
+    </div>
+
+    <div id="feedback-q1" class="feedback-banner"></div>
+  </div>
+
+  <!-- CÂU HỎI 2 -->
+  <div class="question-block">
+    <div class="q-title">
+      <span class="q-num">2</span>
+      <span>Hãy kể tên 1 ứng dụng hoặc thiết bị có AI mà em hoặc người thân từng sử dụng hay biết đến:</span>
+    </div>
+
+    <div class="input-row">
+      <input type="text" id="ai-input" class="text-input" placeholder="Nhập câu trả lời của em..." onkeydown="if(event.key==='Enter') submitAnswer2()">
+      <button class="btn-submit" onclick="submitAnswer2()">Gửi câu trả lời 🚀</button>
+    </div>
+
+    <div class="user-record-box" id="user-record">
+      <div style="font-weight: 800; color: #166534; margin-bottom: 4px;">✔ ĐÃ GHI NHẬN CÂU TRẢ LỜI CỦA EM:</div>
+      <div style="font-size: 1rem; font-weight: 700; color: #1e293b;" id="record-content"></div>
+      <div style="font-size: 0.85rem; color: #64748b; margin-top: 6px;">
+        Hệ thống LMS đã lưu kết quả. Ý kiến này sẽ được thầy/cô cùng cả lớp phân tích trong hoạt động tiếp theo!
+      </div>
+    </div>
+  </div>
+
+  <div class="status-footer">
+    <span>💡 Hãy hoàn thành cả 2 câu hỏi để mở khóa hoạt động học tiếp theo.</span>
+    <span class="done-badge" id="done-badge">✔ ĐÃ HOÀN THÀNH</span>
+  </div>
+</div>
+
+<script>
+  // Web Audio for genuine sound feedback
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  function playSound(isCorrect) {
+    try {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      const now = audioCtx.currentTime;
+
+      if (isCorrect) {
+        osc.frequency.setValueAtTime(523, now); // C5
+        osc.frequency.setValueAtTime(659, now + 0.1); // E5
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+        osc.start(now);
+        osc.stop(now + 0.3);
+      } else {
+        osc.frequency.setValueAtTime(240, now);
+        osc.frequency.setValueAtTime(190, now + 0.1);
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+        osc.start(now);
+        osc.stop(now + 0.3);
+      }
+    } catch(e) {}
+  }
+
+  let q1Completed = false;
+  let q2Completed = false;
+
+  function checkAnswer(btn, choice) {
+    // Reset previous styles
+    document.querySelectorAll('#q1-options .option-btn').forEach(b => {
+      b.classList.remove('correct-choice', 'wrong-choice');
+      b.querySelector('.mark-icon').innerText = '';
+    });
+
+    const feedback = document.getElementById('feedback-q1');
+    feedback.style.display = 'block';
+
+    if (choice === 'B') {
+      playSound(true);
+      btn.classList.add('correct-choice');
+      btn.querySelector('.mark-icon').innerText = '✔';
+      feedback.className = 'feedback-banner correct';
+      feedback.innerHTML = '🎯 <strong>ĐÚNG RỒI!</strong> Trí tuệ nhân tạo (AI) hoàn toàn không tự sinh ra trong tự nhiên, mà do con người dày công thu thập dữ liệu, lập trình thuật toán và huấn luyện máy tính tạo nên.';
+      q1Completed = true;
+    } else {
+      playSound(false);
+      btn.classList.add('wrong-choice');
+      btn.querySelector('.mark-icon').innerText = '✖';
+      feedback.className = 'feedback-banner wrong';
+      feedback.innerHTML = '❌ <strong>CHƯA CHÍNH XÁC!</strong> AI không có sẵn trong tự nhiên và máy tính không thể tự nghĩ ra trí thông minh. AI là sản phẩm do con người trực tiếp thu thập dữ liệu và lập trình. Em hãy chọn lại phương án đúng nhé!';
+    }
+
+    checkAllDone();
+    notifyLMS('SURVEY_Q1_ANSWERED', { choice: choice, isCorrect: choice === 'B' });
+  }
+
+  function submitAnswer2() {
+    const input = document.getElementById('ai-input');
+    const val = input.value.trim();
+    if (!val) {
+      alert("Vui lòng nhập tên 1 ứng dụng hoặc thiết bị có AI mà em biết!");
+      return;
+    }
+
+    playSound(true);
+    document.getElementById('record-content').innerText = `"${val}"`;
+    document.getElementById('user-record').style.display = 'block';
+    q2Completed = true;
+
+    checkAllDone();
+    notifyLMS('SURVEY_Q2_SUBMITTED', { text: val });
+  }
+
+  function checkAllDone() {
+    if (q1Completed && q2Completed) {
+      document.getElementById('done-badge').style.display = 'inline-block';
+      notifyLMS('SURVEY_COMPLETED', { status: 'passed' });
+    }
+  }
+
+  function notifyLMS(type, data) {
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ source: 'LMS_SURVEY_ACTIVITY', type: type, data: data }, '*');
+    }
+  }
+</script>
+
+</body>
+</html>

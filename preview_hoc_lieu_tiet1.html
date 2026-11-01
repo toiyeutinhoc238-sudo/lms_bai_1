@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Học Liệu Trực Tuyến LMS - Tiết 1: Nguồn gốc của AI và Quyền quyết định</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4338ca;
+      --primary-light: #6366f1;
+      --secondary: #06b6d4;
+      --accent: #f59e0b;
+      --success: #10b981;
+      --danger: #ef4444;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --radius: 16px;
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Nunito', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #eef2ff 0%, #f0fdf4 50%, #f8fafc 100%);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #3730a3, #4f46e5);
+      color: white;
+      padding: 24px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::after {
+      content: '🤖';
+      font-size: 110px;
+      position: absolute;
+      right: 20px;
+      bottom: -20px;
+      opacity: 0.18;
+    }
+
+    .badge-tag {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+
+    /* Progress bar */
+    .stepper {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      position: relative;
+      background: white;
+      padding: 16px 20px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      position: relative;
+      z-index: 2;
+      transition: all 0.2s;
+    }
+
+    .step-item.active {
+      color: var(--primary);
+    }
+
+    .step-item.completed {
+      color: var(--success);
+    }
+
+    .step-num {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      transition: all 0.2s;
+    }
+
+    .step-item.active .step-num {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.25);
+    }
+
+    .step-item.completed .step-num {
+      background: var(--success);
+      color: white;
+    }
+
+    /* Card Panels */
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+
+    .card-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-desc {
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    /* Survey Styles */
+    .poll-option {
+      background: #f1f5f9;
+      border: 2px solid transparent;
+      padding: 14px 18px;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .poll-option:hover {
+      background: #e2e8f0;
+      border-color: #cbd5e1;
+    }
+
+    .poll-option.selected {
+      border-color: var(--primary-light);
+      background: #eef2ff;
+      color: var(--primary);
+    }
+
+    .feedback-box {
+      display: none;
+      padding: 16px;
+      border-radius: 12px;
+      margin-top: 14px;
+      line-height: 1.5;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .feedback-box.correct {
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #86efac;
+    }
+
+    .feedback-box.info {
+      background: #e0e7ff;
+      color: #3730a3;
+      border: 1px solid #a5b4fc;
+    }
+
+    /* Word Cloud / Tag Cloud */
+    .wordcloud-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 16px;
+      background: #f8fafc;
+      border: 2px dashed #cbd5e1;
+      border-radius: 12px;
+      min-height: 80px;
+      align-items: center;
+      justify-content: center;
+      margin-top: 15px;
+    }
+
+    .word-tag {
+      background: white;
+      border: 1px solid #cbd5e1;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-weight: 700;
+      color: var(--primary);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      animation: popIn 0.3s ease-out;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.6); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Video Player Simulation */
+    .video-mockup {
+      background: #0f172a;
+      border-radius: 14px;
+      overflow: hidden;
+      color: white;
+      position: relative;
+      box-shadow: var(--shadow);
+    }
+
+    .video-screen {
+      height: 380px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+      position: relative;
+      background: radial-gradient(circle at center, #1e1b4b 0%, #090d16 100%);
+    }
+
+    .video-avatar {
+      font-size: 64px;
+      margin-bottom: 12px;
+      animation: bounce 2s infinite ease-in-out;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .video-caption {
+      font-size: 1.15rem;
+      max-width: 650px;
+      line-height: 1.6;
+      background: rgba(0, 0, 0, 0.65);
+      padding: 12px 20px;
+      border-radius: 10px;
+      border-left: 4px solid var(--accent);
+    }
+
+    .video-timeline {
+      padding: 12px 20px;
+      background: #090d16;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .btn-play {
+      background: var(--primary-light);
+      border: none;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      transition: all 0.2s;
+    }
+
+    .btn-play:hover {
+      transform: scale(1.08);
+      background: var(--primary);
+    }
+
+    .progress-track {
+      flex: 1;
+      height: 10px;
+      background: #334155;
+      border-radius: 999px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #6366f1, #06b6d4);
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+
+    .checkpoint-marker {
+      position: absolute;
+      top: -3px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid white;
+      transform: translateX(-50%);
+      z-index: 3;
+      cursor: pointer;
+    }
+
+    /* Modal / Pop-up Question in Video */
+    .popup-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(6px);
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      z-index: 10;
+    }
+
+    .popup-card {
+      background: white;
+      color: var(--text);
+      border-radius: 16px;
+      max-width: 600px;
+      width: 100%;
+      padding: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3);
+      animation: popIn 0.3s;
+    }
+
+    .popup-card h3 {
+      color: var(--primary);
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .popup-card .popup-q {
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 16px;
+    }
+
+    .popup-opt {
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      padding: 10px 14px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.92rem;
+      transition: all 0.2s;
+    }
+
+    .popup-opt:hover {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+    }
+
+    /* Drag & Drop Gamification Styles */
+    .drag-game-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .drag-game-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .drop-zone {
+      background: #f8fafc;
+      border: 3px dashed #cbd5e1;
+      border-radius: var(--radius);
+      padding: 18px;
+      min-height: 320px;
+      transition: all 0.2s;
+    }
+
+    .drop-zone.hovered {
+      background: #eef2ff;
+      border-color: var(--primary-light);
+    }
+
+    .drop-zone-title {
+      font-weight: 800;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .zone-ai .drop-zone-title {
+      color: #059669;
+    }
+
+    .zone-no-ai .drop-zone-title {
+      color: #d97706;
+    }
+
+    .pool-container {
+      background: #f1f5f9;
+      padding: 16px;
+      border-radius: var(--radius);
+      margin-bottom: 20px;
+    }
+
+    .pool-title {
+      font-weight: 800;
+      margin-bottom: 12px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .card-pool {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      min-height: 80px;
+    }
+
+    .drag-card {
+      background: white;
+      border: 1px solid #cbd5e1;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: grab;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      user-select: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .drag-card:active {
+      cursor: grabbing;
+      transform: scale(0.97);
+    }
+
+    .drag-card.correct-drop {
+      border: 2px solid var(--success);
+      background: #ecfdf5;
+      color: #065f46;
+    }
+
+    .drag-card.wrong-drop {
+      border: 2px solid var(--danger);
+      background: #fef2f2;
+      color: #991b1b;
+      animation: shake 0.4s;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+
+    /* Matching Pair Game */
+    .match-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .match-left, .match-right {
+      padding: 14px 16px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .match-left {
+      background: #eef2ff;
+      border: 2px solid #c7d2fe;
+      color: var(--primary);
+    }
+
+    .match-right {
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      color: var(--text);
+    }
+
+    .match-left.selected {
+      border-color: var(--primary);
+      background: #e0e7ff;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+    }
+
+    .match-right.selected {
+      border-color: var(--accent);
+      background: #fef3c7;
+    }
+
+    .matched-pair {
+      background: #dcfce7 !important;
+      border-color: #86efac !important;
+      color: #166534 !important;
+      cursor: default !important;
+      pointer-events: none;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #3730a3;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(67, 56, 202, 0.3);
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: #059669;
+    }
+
+    .action-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .score-badge {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--primary);
+      background: #eef2ff;
+      padding: 6px 16px;
+      border-radius: 999px;
+    }
+
+    /* Notification Modal */
+    .modal-banner {
+      display: none;
+      padding: 20px;
+      border-radius: var(--radius);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .modal-banner.pass {
+      background: #ecfdf5;
+      border: 2px solid #34d399;
+      color: #065f46;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Header -->
+  <header>
+    <span class="badge-tag">HỆ THỐNG LMS TIN HỌC 6 • TIẾT 1 TRỰC TUYẾN</span>
+    <h1>BÀI 1: NGUỒN GỐC CỦA AI VÀ QUYỀN QUYẾT ĐỊNH</h1>
+    <p class="subtitle">Khám phá bản chất của AI: AI từ đâu sinh ra? Ai nắm giữ quyền quyết định?</p>
+  </header>
+
+  <!-- Navigation Stepper -->
+  <div class="stepper">
+    <div class="step-item active" id="step-btn-1" onclick="switchTab(1)">
+      <div class="step-num">1</div>
+      <span>1. Khảo sát ngắn (5')</span>
+    </div>
+    <div class="step-item" id="step-btn-2" onclick="switchTab(2)">
+      <div class="step-num">2</div>
+      <span>2. Video tương tác (20')</span>
+    </div>
+    <div class="step-item" id="step-btn-3" onclick="switchTab(3)">
+      <div class="step-num">3</div>
+      <span>3. Game kéo thả (20')</span>
+    </div>
+    <div class="step-item" id="step-btn-4" onclick="switchTab(4)">
+      <div class="step-num">4</div>
+      <span>4. Tổng kết & Đạt chuẩn</span>
+    </div>
+  </div>
+
+  <!-- TAB 1: KHẢO SÁT NGẮN (KHỞI ĐỘNG) -->
+  <div class="tab-content active" id="tab-1">
+    <div class="card">
+      <h2 class="card-title"><span>📊</span> Hoạt động 1: Khảo sát nhận thức ban đầu về AI</h2>
+      <p class="card-desc">Hãy chia sẻ suy nghĩ và hiểu biết hiện tại của em trước khi chúng ta khám phá bài học!</p>
+
+      <!-- Câu 1 -->
+      <div style="margin-bottom: 30px;">
+        <h4 style="font-size: 1.05rem; margin-bottom: 12px;">Câu 1: Theo em, Trí tuệ nhân tạo (AI) tự sinh ra trong tự nhiên hay do con người tạo ra?</h4>
+        
+        <div class="poll-option" onclick="selectPoll(this, 'A')">
+          <span>A. Tự sinh ra và tiến hóa trong tự nhiên giống muôn loài thú và cây cỏ</span>
+          <span class="poll-icon" id="icon-A"></span>
+        </div>
+        <div class="poll-option" onclick="selectPoll(this, 'B')">
+          <span>B. Do con người thu thập dữ liệu, lập trình thuật toán và huấn luyện máy tính</span>
+          <span class="poll-icon" id="icon-B"></span>
+        </div>
+        <div class="poll-option" onclick="selectPoll(this, 'C')">
+          <span>C. Do các robot siêu cấp từ ngoài vũ trụ truyền đến</span>
+          <span class="poll-icon" id="icon-C"></span>
+        </div>
+        <div class="poll-option" onclick="selectPoll(this, 'D')">
+          <span>D. Tự phát sinh khi các máy vi tính kết nối mạng Internet</span>
+          <span class="poll-icon" id="icon-D"></span>
+        </div>
+
+        <div id="survey-feedback" class="feedback-box"></div>
+      </div>
+
+      <!-- Câu 2 -->
+      <div>
+        <h4 style="font-size: 1.05rem; margin-bottom: 12px;">Câu 2: Hãy kể tên 1 ứng dụng hoặc thiết bị có AI mà em biết:</h4>
+        <div style="display: flex; gap: 10px;">
+          <input type="text" id="ai-app-input" placeholder="Nhập câu trả lời của em..." style="flex: 1; padding: 12px 16px; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 1rem; outline: none;">
+          <button class="btn btn-primary" onclick="submitWord()">Gửi câu trả lời</button>
+        </div>
+
+        <div id="submitted-record-box" style="display: none; margin-top: 14px; background: #f0fdf4; border: 1px solid #bbf7d0; border-left: 4px solid var(--success); padding: 12px 16px; border-radius: 10px;">
+          <div style="font-weight: 800; color: #166534; font-size: 0.92rem;">✔ ĐÃ GHI NHẬN CÂU TRẢ LỜI CỦA EM:</div>
+          <div style="font-size: 1rem; font-weight: 700; color: #0f172a; margin-top: 4px;" id="submitted-record-val"></div>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <span style="color: var(--text-muted); font-size: 0.9rem;">⭐ Hoàn thành khảo sát để mở khóa Video bài học</span>
+        <button class="btn btn-primary" onclick="switchTab(2)">Tiếp tục: Xem Video tương tác ➔</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2: VIDEO HỌC TẬP TƯƠNG TÁC (SCORM / H5P) -->
+  <div class="tab-content" id="tab-2">
+    <div class="card">
+      <h2 class="card-title"><span>🎬</span> Hoạt động 2.1: Video tương tác - Bản chất của AI: AI từ đâu mà có?</h2>
+      <p class="card-desc">Mô phỏng chuẩn gói SCORM/H5P trên LMS: Video sẽ tự động tạm dừng tại các điểm kiểm tra kiến thức (Pop-up checkpoints). Trả lời đúng để mở khóa đoạn tiếp theo!</p>
+
+      <div class="video-mockup">
+        <div class="video-screen">
+          <div class="video-avatar" id="vid-avatar">🤖</div>
+          <h3 id="vid-title" style="margin-bottom: 12px; font-size: 1.4rem;">Khám phá: AI từ đâu sinh ra?</h3>
+          <p class="video-caption" id="vid-caption">
+            "Chào các em! Có phải AI là một phép màu tự sinh ra trong tự nhiên không? Hãy cùng theo dõi hành trình khám phá nhé!"
+          </p>
+
+          <!-- Pop-up Modal Checkpoint -->
+          <div class="popup-overlay" id="popup-overlay">
+            <div class="popup-card">
+              <h3 id="pop-title">📍 Điểm dừng kiểm tra (Pop-up Checkpoint)</h3>
+              <p class="popup-q" id="pop-question">Nội dung câu hỏi...</p>
+              <div id="pop-options"></div>
+              <div id="pop-feedback" class="feedback-box"></div>
+              <button class="btn btn-primary" id="btn-pop-resume" style="display: none; margin-top: 14px; width: 100%; justify-content: center;" onclick="resumeVideo()">Xem tiếp ➔</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeline Control -->
+        <div class="video-timeline">
+          <button class="btn-play" id="btn-play" onclick="togglePlay()">▶</button>
+          <span id="time-display" style="font-size: 0.85rem; font-weight: 700; min-width: 85px;">00:00 / 05:30</span>
+          
+          <div class="progress-track" id="progress-track">
+            <div class="progress-fill" id="progress-fill"></div>
+            <!-- Marker Checkpoint 1 (at 25% ~ 01:45) -->
+            <div class="checkpoint-marker" style="left: 25%;" title="Neo chặn 1: Khái niệm Human-led"></div>
+            <!-- Marker Checkpoint 2 (at 60% ~ 03:15) -->
+            <div class="checkpoint-marker" style="left: 60%;" title="Neo chặn 2: 3 bước tạo ra AI"></div>
+            <!-- Marker Checkpoint 3 (at 85% ~ 04:30) -->
+            <div class="checkpoint-marker" style="left: 85%;" title="Neo chặn 3: Con người chịu trách nhiệm"></div>
+          </div>
+
+          <span class="score-badge" id="video-score">Điểm: 0/30</span>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <span style="color: var(--text-muted); font-size: 0.9rem;">⚠️ Không cho phép tua nhảy cóc (Disable skipping theo chuẩn SCORM)</span>
+        <button class="btn btn-primary" id="btn-to-tab3" onclick="switchTab(3)">Chuyển sang: Trò chơi kéo thả ➔</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 3: TRÒ CHƠI KÉO THẢ GAMIFICATION -->
+  <div class="tab-content" id="tab-3">
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <h2 class="card-title"><span>🎮</span> Hoạt động 2.2: Trò chơi Kéo - Thả "Thám tử AI quanh ta"</h2>
+        <span class="score-badge" id="game-score-badge">Điểm: 0/10</span>
+      </div>
+      <p class="card-desc">Phân loại các thiết bị/ứng dụng vào đúng 2 nhóm: <strong>CÓ ỨNG DỤNG AI</strong> hoặc <strong>KHÔNG DÙNG AI</strong>. (Đạt từ 8/10 điểm trở lên để hoàn thành tiết 1!)</p>
+
+      <!-- Card Pool -->
+      <div class="pool-container">
+        <div class="pool-title">DANH SÁCH THIẾT BỊ / ỨNG DỤNG (Kéo thả vào 2 ô bên dưới):</div>
+        <div class="card-pool" id="card-pool">
+          <div class="drag-card" draggable="true" ondragstart="drag(event)" id="card-1" data-cat="ai">👤 Nhận diện khuôn mặt (FaceID)</div>
+          <div class="drag-card" draggable="true" ondragstart="drag(event)" id="card-2" data-cat="no-ai">🔢 Máy tính bỏ túi Casio fx-580</div>
+          <div class="drag-card" draggable="true" ondragstart="drag(event)" id="card-3" data-cat="ai">🌐 Google Dịch tự động</div>
+          <div class="drag-card" draggable="true" ondragstart="drag(event)" id="card-4" data-cat="no-ai">💨 Quạt máy bấm phím số 1, 2, 3</div>
+          <div class="drag-card" draggable="true" ondragstart="drag(event)" id="card-5" data-cat="ai">🎙️ Trợ lý ảo Siri / Google Assistant</div>
+          <div class="drag-card" draggable="true" ondragstart="drag(event)" id="card-6" data-cat="no-ai">⏰ Đồng hồ báo thức cơ học để bàn</div>
+          <div class="drag-card" draggable="true" ondragstart="drag(event)" id="card-7" data-cat="ai">📺 YouTube tự gợi ý video em thích</div>
+          <div class="drag-card" draggable="true" ondragstart="drag(event)" id="card-8" data-cat="no-ai">⌨️ Bàn phím máy tính thông thường</div>
+          <div class="drag-card" draggable="true" ondragstart="drag(event)" id="card-9" data-cat="ai">📧 Hộp thư Gmail tự lọc thư rác (Spam)</div>
+          <div class="drag-card" draggable="true" ondragstart="drag(event)" id="card-10" data-cat="no-ai">🔦 Đèn pin bấm công tắc trượt</div>
+        </div>
+      </div>
+
+      <!-- Drop Zones -->
+      <div class="drag-game-container">
+        <div class="drop-zone zone-ai" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'ai')" id="drop-ai">
+          <div class="drop-zone-title">🟢 HỘP: CÓ ỨNG DỤNG AI (0 mục)</div>
+          <div class="zone-content" style="display: flex; flex-direction: column; gap: 8px;"></div>
+        </div>
+
+        <div class="drop-zone zone-no-ai" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" ondrop="drop(event, 'no-ai')" id="drop-no-ai">
+          <div class="drop-zone-title">🟠 HỘP: KHÔNG DÙNG AI (0 mục)</div>
+          <div class="zone-content" style="display: flex; flex-direction: column; gap: 8px;"></div>
+        </div>
+      </div>
+
+      <!-- NHIỆM VỤ 2: GHÉP CẶP -->
+      <div style="margin-top: 36px; padding-top: 24px; border-top: 2px dashed #cbd5e1;">
+        <h3 style="font-size: 1.15rem; color: var(--primary); margin-bottom: 12px;">🔗 Nhiệm vụ 2: Ghép nối "Công cụ AI" với "Bàn tay con người"</h3>
+        <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 16px;">Chọn 1 ô ở cột bên trái (Công cụ AI), sau đó chọn 1 ô tương ứng ở cột bên phải (Hành động con người đã làm):</p>
+
+        <div id="matching-container">
+          <!-- Rows will be injected -->
+        </div>
+      </div>
+
+      <div class="action-row">
+        <button class="btn" style="background: #e2e8f0; color: #475569;" onclick="resetGames()">🔄 Làm lại từ đầu</button>
+        <button class="btn btn-success" onclick="checkAllGames()">Kiểm tra kết quả ➔</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 4: TỔNG KẾT & CHỨNG NHẬN ĐẠT CHUẨN LMS -->
+  <div class="tab-content" id="tab-4">
+    <div class="card" style="text-align: center;">
+      <div style="font-size: 60px; margin-bottom: 12px;">🏆</div>
+      <h2 style="font-size: 1.6rem; color: var(--primary); margin-bottom: 8px;">BÁO CÁO KẾT QUẢ TIẾT 1 (TRỰC TUYẾN)</h2>
+      <p style="color: var(--text-muted); margin-bottom: 24px;">Hệ thống ghi nhận tiến trình học tập của học sinh trên LMS</p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 30px; text-align: left;">
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px;">
+          <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 700;">HOẠT ĐỘNG 1: KHỞI ĐỘNG</div>
+          <div style="font-size: 1.3rem; font-weight: 800; color: var(--success); margin-top: 6px;">Đã hoàn thành ✅</div>
+          <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">Đã gửi ý kiến khảo sát</div>
+        </div>
+
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px;">
+          <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 700;">HOẠT ĐỘNG 2.1: VIDEO SCORM</div>
+          <div style="font-size: 1.3rem; font-weight: 800; color: var(--primary); margin-top: 6px;" id="summary-video-score">30 / 30 điểm</div>
+          <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">Tiến trình xem: 100%</div>
+        </div>
+
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px;">
+          <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 700;">HOẠT ĐỘNG 2.2: GAME KÉO THẢ</div>
+          <div style="font-size: 1.3rem; font-weight: 800; color: var(--accent);" id="summary-game-score">10 / 10 điểm</div>
+          <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">Điều kiện đạt: >= 8.0/10</div>
+        </div>
+      </div>
+
+      <div class="modal-banner pass" id="pass-banner" style="display: block;">
+        <h3 style="font-size: 1.3rem; margin-bottom: 6px;">🎉 CHÚC MỪNG EM ĐÃ ĐẠT CHUẨN HOÀN THÀNH TIẾT 1!</h3>
+        <p>Em đã nắm vững kiến thức cốt lõi: <strong>AI do con người dẫn dắt và tạo ra</strong>, đồng thời biết cách phân biệt các thiết bị thông minh quanh ta. Hãy sẵn sàng cho <strong>Tiết 2 (Học trực tiếp trên lớp)</strong> với các tình huống thảo luận nhóm thực tế!</p>
+      </div>
+
+      <div style="margin-top: 20px;">
+        <button class="btn btn-primary" onclick="window.print()">🖨️ In / Lưu chứng chỉ học tập</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Simple Audio FX with Web Audio API
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  function playSound(type) {
+    try {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      const now = audioCtx.currentTime;
+
+      if (type === 'correct') {
+        osc.frequency.setValueAtTime(523.25, now); // C5
+        osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+        osc.start(now);
+        osc.stop(now + 0.35);
+      } else if (type === 'wrong') {
+        osc.frequency.setValueAtTime(220, now);
+        osc.frequency.setValueAtTime(180, now + 0.15);
+        gain.gain.setValueAtTime(0.25, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+        osc.start(now);
+        osc.stop(now + 0.35);
+      }
+    } catch(e) {}
+  }
+
+  // Navigation Logic
+  let currentTab = 1;
+  function switchTab(step) {
+    currentTab = step;
+    for (let i = 1; i <= 4; i++) {
+      const tab = document.getElementById(`tab-${i}`);
+      const stepBtn = document.getElementById(`step-btn-${i}`);
+      if (tab) tab.classList.remove('active');
+      if (stepBtn) {
+        stepBtn.classList.remove('active');
+        if (i < step) stepBtn.classList.add('completed');
+      }
+    }
+    document.getElementById(`tab-${step}`).classList.add('active');
+    document.getElementById(`step-btn-${step}`).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Tab 1: Survey Logic (Không số liệu ảo, phản hồi đúng/sai trực tiếp)
+  function selectPoll(el, val) {
+    document.querySelectorAll('.poll-option').forEach(opt => {
+      opt.classList.remove('selected');
+      opt.style.borderColor = 'transparent';
+      opt.style.background = '#f1f5f9';
+      opt.style.color = 'var(--text)';
+    });
+    ['A', 'B', 'C', 'D'].forEach(k => document.getElementById(`icon-${k}`).innerText = '');
+
+    const fb = document.getElementById('survey-feedback');
+    fb.style.display = 'block';
+
+    if (val === 'B') {
+      playSound('correct');
+      el.style.borderColor = '#10b981';
+      el.style.background = '#dcfce7';
+      el.style.color = '#166534';
+      document.getElementById('icon-B').innerText = '✔';
+      fb.className = 'feedback-box correct';
+      fb.innerHTML = '🎯 <strong>ĐÚNG RỒI!</strong> Trí tuệ nhân tạo (AI) hoàn toàn không tự sinh ra trong tự nhiên, mà do con người thu thập dữ liệu, viết thuật toán và huấn luyện máy tính tạo ra.';
+    } else {
+      playSound('wrong');
+      el.style.borderColor = '#ef4444';
+      el.style.background = '#fee2e2';
+      el.style.color = '#991b1b';
+      document.getElementById(`icon-${val}`).innerText = '✖';
+      fb.className = 'feedback-box info';
+      fb.innerHTML = '❌ <strong>CHƯA ĐÚNG!</strong> AI không tự sinh ra và không có sẵn trong tự nhiên. AI thực chất là sản phẩm do con người trực tiếp thu thập dữ liệu, lập trình và điều khiển. Em hãy chọn lại đáp án đúng nhé!';
+    }
+  }
+
+  function submitWord() {
+    const inp = document.getElementById('ai-app-input');
+    const val = inp.value.trim();
+    if (val) {
+      playSound('correct');
+      document.getElementById('submitted-record-val').innerText = `"${val}"`;
+      document.getElementById('submitted-record-box').style.display = 'block';
+      inp.value = '';
+    } else {
+      alert("Vui lòng nhập tên 1 ứng dụng hoặc thiết bị có AI!");
+    }
+  }
+
+  // Tab 2: Interactive Video Simulation
+  let isPlaying = false;
+  let videoTime = 0;
+  const maxTime = 330; // 5 mins 30s
+  let videoInterval = null;
+  let checkpoint1Passed = false;
+  let checkpoint2Passed = false;
+  let checkpoint3Passed = false;
+  let videoPoints = 0;
+
+  const checkpoints = [
+    {
+      time: 80, // ~ 25% (01:20)
+      id: 1,
+      title: "Neo chặn 1 (01:45): Bản chất AI",
+      q: "Tại sao tài liệu quốc tế của UNESCO khẳng định AI là công nghệ do con người dẫn dắt (Human-led)?",
+      opts: [
+        { text: "A. Vì AI có thể tự học mọi thứ mà không cần ai dạy", correct: false },
+        { text: "B. Vì AI hoàn toàn do con người thu thập dữ liệu, lập trình và điều khiển mục đích", correct: true },
+        { text: "C. Vì con người chỉ đứng nhìn máy tính tự quyết định", correct: false }
+      ],
+      feedback: "Chính xác! AI luôn được dẫn dắt bởi trí tuệ và sự kiểm soát của con người."
+    },
+    {
+      time: 190, // ~ 60% (03:10)
+      id: 2,
+      title: "Neo chặn 2 (03:15): 3 bước tạo ra AI",
+      q: "Để dạy AI nhận diện quả cam, con người cần thực hiện bước đầu tiên quan trọng nhất là gì?",
+      opts: [
+        { text: "A. Cắm nguồn điện cho máy tính chạy thật nhanh", correct: false },
+        { text: "B. Thu thập hàng ngàn bức ảnh quả cam ở nhiều góc độ và điều kiện ánh sáng (Dữ liệu)", correct: true },
+        { text: "C. Để máy tính tự bay đi tìm quả cam", correct: false }
+      ],
+      feedback: "Rất đúng! Dữ liệu (Data) do con người thu thập chính là 'thức ăn' để AI học tập."
+    },
+    {
+      time: 275, // ~ 85% (04:35)
+      id: 3,
+      title: "Neo chặn 3 (04:30): Trách nhiệm con người",
+      q: "Nếu một ứng dụng AI nhận nhầm chiếc bánh muffin thành chú chó con, nguyên nhân gốc rễ là gì?",
+      opts: [
+        { text: "A. Chiếc bánh tự động biến hình", correct: false },
+        { text: "B. Do dữ liệu con người cung cấp chưa đủ đa dạng, kỹ sư con người phải nâng cấp thuật toán", correct: true },
+        { text: "C. Do AI giận dỗi người dùng", correct: false }
+      ],
+      feedback: "Chuẩn xác! AI không có cảm xúc, mọi sai sót đều bắt nguồn từ hạn chế dữ liệu/thuật toán của con người."
+    }
+  ];
+
+  function togglePlay() {
+    if (isPlaying) {
+      pauseVideo();
+    } else {
+      startVideo();
+    }
+  }
+
+  function startVideo() {
+    isPlaying = true;
+    document.getElementById('btn-play').innerText = '❚❚';
+    videoInterval = setInterval(updateVideoProgress, 400);
+  }
+
+  function pauseVideo() {
+    isPlaying = false;
+    document.getElementById('btn-play').innerText = '▶';
+    clearInterval(videoInterval);
+  }
+
+  function formatTime(sec) {
+    const m = Math.floor(sec / 60).toString().padStart(2, '0');
+    const s = Math.floor(sec % 60).toString().padStart(2, '0');
+    return `${m}:${s}`;
+  }
+
+  function updateVideoProgress() {
+    videoTime += 3;
+    if (videoTime >= maxTime) {
+      videoTime = maxTime;
+      pauseVideo();
+      document.getElementById('vid-caption').innerText = "🎉 Chúc mừng em đã hoàn thành 100% video học tập! Hãy tiến sang Hoạt động 2.2.";
+    }
+
+    // Format display
+    document.getElementById('time-display').innerText = `${formatTime(videoTime)} / 05:30`;
+    const pct = (videoTime / maxTime) * 100;
+    document.getElementById('progress-fill').style.width = `${pct}%`;
+
+    // Dynamic narration changes
+    if (videoTime < 75) {
+      document.getElementById('vid-caption').innerText = "00:00 - 01:15: Giới thiệu AI quanh ta. AI có phải phép màu không?";
+      document.getElementById('vid-avatar').innerText = '🤖';
+    } else if (videoTime < 185) {
+      document.getElementById('vid-caption').innerText = "01:15 - 03:00: Bản chất AI: Con người dẫn dắt (Human-led). Các kỹ sư lập trình.";
+      document.getElementById('vid-avatar').innerText = '👨‍💻';
+    } else if (videoTime < 270) {
+      document.getElementById('vid-caption').innerText = "03:00 - 04:30: Quy trình 3 bước: Dữ liệu (Data) ➔ Thuật toán (Algorithms) ➔ Huấn luyện.";
+      document.getElementById('vid-avatar').innerText = '📊';
+    } else {
+      document.getElementById('vid-caption').innerText = "04:30 - 05:30: Con người luôn là người giám sát (Human in the loop) và chịu trách nhiệm.";
+      document.getElementById('vid-avatar').innerText = '🚴';
+    }
+
+    // Checkpoints trigger
+    if (videoTime >= checkpoints[0].time && !checkpoint1Passed) {
+      triggerCheckpoint(checkpoints[0]);
+    } else if (videoTime >= checkpoints[1].time && !checkpoint2Passed) {
+      triggerCheckpoint(checkpoints[1]);
+    } else if (videoTime >= checkpoints[2].time && !checkpoint3Passed) {
+      triggerCheckpoint(checkpoints[2]);
+    }
+  }
+
+  function triggerCheckpoint(cp) {
+    pauseVideo();
+    const overlay = document.getElementById('popup-overlay');
+    overlay.style.display = 'flex';
+    document.getElementById('pop-title').innerText = cp.title;
+    document.getElementById('pop-question').innerText = cp.q;
+    document.getElementById('btn-pop-resume').style.display = 'none';
+
+    const optsContainer = document.getElementById('pop-options');
+    optsContainer.innerHTML = '';
+    const fb = document.getElementById('pop-feedback');
+    fb.style.display = 'none';
+
+    cp.opts.forEach(opt => {
+      const btn = document.createElement('div');
+      btn.className = 'popup-opt';
+      btn.innerText = opt.text;
+      btn.onclick = () => {
+        if (opt.correct) {
+          playSound('correct');
+          btn.style.borderColor = '#10b981';
+          btn.style.background = '#dcfce7';
+          btn.style.color = '#065f46';
+          fb.style.display = 'block';
+          fb.className = 'feedback-box correct';
+          fb.innerHTML = '✅ ' + cp.feedback;
+          document.getElementById('btn-pop-resume').style.display = 'flex';
+          
+          if (cp.id === 1) checkpoint1Passed = true;
+          if (cp.id === 2) checkpoint2Passed = true;
+          if (cp.id === 3) checkpoint3Passed = true;
+
+          videoPoints += 10;
+          document.getElementById('video-score').innerText = `Điểm: ${videoPoints}/30`;
+          document.getElementById('summary-video-score').innerText = `${videoPoints}/30 điểm`;
+        } else {
+          playSound('wrong');
+          btn.style.borderColor = '#ef4444';
+          btn.style.background = '#fee2e2';
+          btn.style.color = '#991b1b';
+          fb.style.display = 'block';
+          fb.className = 'feedback-box info';
+          fb.innerHTML = '❌ Chưa chính xác! Em hãy suy nghĩ kĩ lại nhé: AI không tự làm chủ được.';
+        }
+      };
+      optsContainer.appendChild(btn);
+    });
+  }
+
+  function resumeVideo() {
+    document.getElementById('popup-overlay').style.display = 'none';
+    startVideo();
+  }
+
+  // TAB 3: DRAG & DROP GAME (GAMIFICATION)
+  function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+  }
+
+  function allowDrop(ev) {
+    ev.preventDefault();
+    ev.currentTarget.classList.add('hovered');
+  }
+
+  function dragLeave(ev) {
+    ev.currentTarget.classList.remove('hovered');
+  }
+
+  let gameScore = 0;
+  function drop(ev, zoneType) {
+    ev.preventDefault();
+    ev.currentTarget.classList.remove('hovered');
+    const data = ev.dataTransfer.getData("text");
+    const draggedEl = document.getElementById(data);
+    if (!draggedEl) return;
+
+    const correctCat = draggedEl.getAttribute('data-cat');
+    const targetContent = ev.currentTarget.querySelector('.zone-content');
+
+    if (zoneType === correctCat) {
+      playSound('correct');
+      draggedEl.classList.remove('wrong-drop');
+      draggedEl.classList.add('correct-drop');
+      draggedEl.setAttribute('draggable', 'false');
+      targetContent.appendChild(draggedEl);
+    } else {
+      playSound('wrong');
+      draggedEl.classList.add('wrong-drop');
+      setTimeout(() => {
+        draggedEl.classList.remove('wrong-drop');
+      }, 600);
+    }
+    updateZoneTitles();
+  }
+
+  function updateZoneTitles() {
+    const aiCount = document.querySelectorAll('#drop-ai .drag-card').length;
+    const noAiCount = document.querySelectorAll('#drop-no-ai .drag-card').length;
+    document.querySelector('#drop-ai .drop-zone-title').innerText = `🟢 HỘP: CÓ ỨNG DỤNG AI (${aiCount}/5 mục)`;
+    document.querySelector('#drop-no-ai .drop-zone-title').innerText = `🟠 HỘP: KHÔNG DÙNG AI (${noAiCount}/5 mục)`;
+
+    gameScore = aiCount + noAiCount;
+    document.getElementById('game-score-badge').innerText = `Điểm: ${gameScore}/10`;
+    document.getElementById('summary-game-score').innerText = `${gameScore}/10 điểm`;
+  }
+
+  // Matching Pairs Game Setup
+  const pairsData = [
+    { id: 1, ai: "Trợ lý ảo giọng nói (Siri, Google)", human: "Con người thu âm và gắn nhãn hàng triệu tệp giọng nói mẫu để máy tính học" },
+    { id: 2, ai: "Camera nhận diện biển số xe", human: "Kỹ sư lập trình thuật toán nhận biết các con số và chữ cái từ ảnh chụp" },
+    { id: 3, ai: "Xe tự lái nhận biết biển báo", human: "Con người chụp và nạp vào máy tính hàng ngàn hình ảnh biển báo dưới trời mưa, nắng" },
+    { id: 4, ai: "Dự báo thời tiết bằng AI", human: "Nhà khoa học thu thập dữ liệu áp suất, độ ẩm từ vệ tinh và xây dựng mô hình tính toán" },
+    { id: 5, ai: "AI vẽ tranh tự động (Midjourney)", human: "Con người số hóa hàng triệu bức tranh của các họa sĩ để làm kho học tập cho máy" }
+  ];
+
+  let selectedLeft = null;
+  let selectedRight = null;
+
+  function initMatchingGame() {
+    const container = document.getElementById('matching-container');
+    container.innerHTML = '';
+    
+    // Shuffle human options
+    const shuffledHuman = [...pairsData].sort(() => Math.random() - 0.5);
+
+    pairsData.forEach((item, idx) => {
+      const row = document.createElement('div');
+      row.className = 'match-row';
+
+      const left = document.createElement('div');
+      left.className = 'match-left';
+      left.innerText = `${idx + 1}. ${item.ai}`;
+      left.dataset.id = item.id;
+      left.onclick = () => selectLeftMatch(left);
+
+      const right = document.createElement('div');
+      right.className = 'match-right';
+      right.innerText = `➤ ${shuffledHuman[idx].human}`;
+      right.dataset.id = shuffledHuman[idx].id;
+      right.onclick = () => selectRightMatch(right);
+
+      row.appendChild(left);
+      row.appendChild(right);
+      container.appendChild(row);
+    });
+  }
+
+  function selectLeftMatch(el) {
+    if (el.classList.contains('matched-pair')) return;
+    document.querySelectorAll('.match-left').forEach(i => i.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedLeft = el;
+    checkMatch();
+  }
+
+  function selectRightMatch(el) {
+    if (el.classList.contains('matched-pair')) return;
+    document.querySelectorAll('.match-right').forEach(i => i.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedRight = el;
+    checkMatch();
+  }
+
+  function checkMatch() {
+    if (selectedLeft && selectedRight) {
+      if (selectedLeft.dataset.id === selectedRight.dataset.id) {
+        playSound('correct');
+        selectedLeft.classList.remove('selected');
+        selectedRight.classList.remove('selected');
+        selectedLeft.classList.add('matched-pair');
+        selectedRight.classList.add('matched-pair');
+        selectedLeft.innerHTML += ' ✅';
+        selectedRight.innerHTML += ' ✅';
+      } else {
+        playSound('wrong');
+        const l = selectedLeft;
+        const r = selectedRight;
+        l.classList.add('wrong-drop');
+        r.classList.add('wrong-drop');
+        setTimeout(() => {
+          if (l) l.classList.remove('wrong-drop', 'selected');
+          if (r) r.classList.remove('wrong-drop', 'selected');
+        }, 500);
+      }
+      selectedLeft = null;
+      selectedRight = null;
+    }
+  }
+
+  function checkAllGames() {
+    if (gameScore >= 8) {
+      playSound('correct');
+      switchTab(4);
+    } else {
+      playSound('wrong');
+      alert(`Em hiện đang đạt ${gameScore}/10 điểm nhiệm vụ 1. Cần tối thiểu 8/10 điểm để đạt chuẩn Pass LMS. Hãy tiếp tục kéo các thẻ còn lại nhé!`);
+    }
+  }
+
+  function resetGames() {
+    location.reload();
+  }
+
+  // Init
+  initMatchingGame();
+</script>
+
+</body>
+</html>
+

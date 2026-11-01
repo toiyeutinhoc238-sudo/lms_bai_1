@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trò chơi Kéo - Thả: Thám tử AI quanh ta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-dark: #3730a3;
+      --accent: #f59e0b;
+      --success: #10b981;
+      --success-bg: #dcfce7;
+      --danger: #ef4444;
+      --danger-bg: #fee2e2;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Nunito', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: linear-gradient(135deg, #eef2ff 0%, #f0fdf4 100%);
+      color: var(--text);
+      padding: 16px;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .game-wrapper {
+      background: var(--card-bg);
+      width: 100%;
+      max-width: 960px;
+      border-radius: var(--radius);
+      box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.08), 0 0 0 1px #e2e8f0;
+      padding: 24px;
+      position: relative;
+    }
+
+    /* Header Bar */
+    .game-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #f1f5f9;
+    }
+
+    .title-group h2 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .title-group p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .version-tag {
+      background: #e0e7ff;
+      color: var(--primary);
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 999px;
+      margin-left: 6px;
+    }
+
+    .stats-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .stat-pill {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .score-pill {
+      background: #eef2ff;
+      border-color: #c7d2fe;
+      color: var(--primary);
+    }
+
+    /* Mission Switcher */
+    .mission-nav {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .m-tab-btn {
+      flex: 1;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 2px solid #e2e8f0;
+      background: #f8fafc;
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    .m-tab-btn.active {
+      border-color: var(--primary);
+      background: #eef2ff;
+      color: var(--primary);
+      box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.1);
+    }
+
+    .mission-section {
+      display: none;
+    }
+
+    .mission-section.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .inst-box {
+      background: #f8fafc;
+      border-left: 4px solid var(--primary);
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      color: #334155;
+      font-weight: 700;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    /* Card Pool Box */
+    .pool-box {
+      background: #f8fafc;
+      border: 2px dashed #cbd5e1;
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 20px;
+      min-height: 110px;
+    }
+
+    .pool-label {
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .cards-flex {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      min-height: 60px;
+      align-content: flex-start;
+    }
+
+    /* Draggable Cards */
+    .drag-card {
+      background: white;
+      border: 2px solid #cbd5e1;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #1e293b;
+      cursor: grab;
+      user-select: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      transition: transform 0.15s, box-shadow 0.15s, border-color 0.2s, background-color 0.2s;
+    }
+
+    .drag-card:hover {
+      border-color: #94a3b8;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    }
+
+    .drag-card:active {
+      cursor: grabbing;
+      opacity: 0.9;
+      transform: scale(1.02);
+    }
+
+    .drag-card.dragging {
+      opacity: 0.35;
+    }
+
+    .drag-card.selected-tap {
+      border-color: var(--primary) !important;
+      background: #eef2ff !important;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+    }
+
+    /* Correct / Wrong evaluation styling */
+    .drag-card.is-correct {
+      border-color: #10b981 !important;
+      background: #dcfce7 !important;
+      color: #166534 !important;
+    }
+
+    .drag-card.is-wrong {
+      border-color: #ef4444 !important;
+      background: #fee2e2 !important;
+      color: #991b1b !important;
+      animation: shake 0.4s ease;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    /* Drop Zones M1 */
+    .drop-grid-m1 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 720px) {
+      .drop-grid-m1 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .drop-bin {
+      background: #ffffff;
+      border: 3px dashed #cbd5e1;
+      border-radius: 14px;
+      padding: 16px;
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .drop-bin.drag-over {
+      border-color: var(--primary) !important;
+      background: #eef2ff !important;
+    }
+
+    .bin-header {
+      font-weight: 800;
+      font-size: 1.05rem;
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+      border-bottom: 2px solid #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .bin-ai .bin-header { color: #059669; }
+    .bin-no-ai .bin-header { color: #d97706; }
+
+    .bin-count {
+      font-size: 0.8rem;
+      background: #f1f5f9;
+      color: var(--text-muted);
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+
+    .bin-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-content: flex-start;
+      flex: 1;
+      min-height: 180px;
+    }
+
+    /* Mission 2 Layout */
+    .matching-slots {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .slot-row {
+      display: grid;
+      grid-template-columns: 1fr 1.35fr;
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    @media (max-width: 760px) {
+      .slot-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .slot-tool {
+      background: #f8fafc;
+      border: 2px solid #c7d2fe;
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .slot-dropzone {
+      background: #ffffff;
+      border: 2px dashed #cbd5e1;
+      border-radius: 12px;
+      padding: 8px 12px;
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .slot-dropzone.drag-over {
+      border-color: var(--primary) !important;
+      background: #eef2ff !important;
+    }
+
+    .slot-dropzone .drag-card {
+      width: 100%;
+    }
+
+    .slot-placeholder {
+      color: #94a3b8;
+      font-size: 0.88rem;
+      font-weight: 600;
+      font-style: italic;
+      pointer-events: none;
+    }
+
+    /* Alert Banner */
+    .result-alert {
+      display: none;
+      padding: 16px 20px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      line-height: 1.5;
+      margin-bottom: 20px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .result-alert.success {
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #86efac;
+    }
+
+    .result-alert.warning {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fca5a5;
+    }
+
+    /* Footer */
+    .footer-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 18px;
+      border-top: 1px solid #e2e8f0;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn-action {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 26px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-action:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-reset {
+      background: #f1f5f9;
+      color: #475569;
+      border: 1px solid #cbd5e1;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .btn-reset:hover {
+      background: #e2e8f0;
+    }
+
+    /* Modal Celebration */
+    .modal-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 50;
+      border-radius: var(--radius);
+    }
+
+    .modal-box {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+      animation: popIn 0.35s ease;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.85); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="game-wrapper">
+  <!-- Header Bar -->
+  <div class="game-header">
+    <div class="title-group">
+      <h2>
+        <span>🎮</span> Thám Tử AI Quanh Ta 
+        <span class="version-tag">KÉO THẢ CHUẨN v2.0</span>
+      </h2>
+      <p>Kéo các thẻ thả vào ô tương ứng, sau đó bấm "Kiểm tra kết quả"!</p>
+    </div>
+    <div class="stats-group">
+      <div class="stat-pill">⏱️ <span id="timer-val">05:00</span></div>
+      <div class="stat-pill score-pill">⭐ Điểm: <span id="total-score">0</span> / 10</div>
+    </div>
+  </div>
+
+  <!-- Mission Navigation -->
+  <div class="mission-nav">
+    <button class="m-tab-btn active" id="tab-btn-1" onclick="switchMission(1)">
+      Nhiệm vụ 1: Phân loại Có/Không dùng AI (10 thẻ)
+    </button>
+    <button class="m-tab-btn" id="tab-btn-2" onclick="switchMission(2)">
+      Nhiệm vụ 2: Ghép nối AI và Con người (5 cặp)
+    </button>
+  </div>
+
+  <!-- ==================== NHIỆM VỤ 1 ==================== -->
+  <div class="mission-section active" id="mission-1">
+    <div class="inst-box">
+      👉 <strong>Cách chơi:</strong> Kéo từng thẻ trong "Kho thẻ" thả vào 1 trong 2 hộp bên dưới (hoặc chạm vào thẻ rồi chạm vào hộp để chuyển). Khi xếp xong, bấm <strong>"Kiểm tra kết quả"</strong>!
+    </div>
+
+    <div class="result-alert" id="alert-m1"></div>
+
+    <!-- Kho thẻ M1 -->
+    <div class="pool-box">
+      <div class="pool-label">
+        <span>KHO THẺ THIẾT BỊ / ỨNG DỤNG (Kéo thả từ đây):</span>
+        <span id="pool-m1-count">10 thẻ còn lại</span>
+      </div>
+      <div class="cards-flex drop-zone" id="pool-m1" data-zone="pool-m1" onclick="handleZoneClick('pool-m1')">
+        <div class="drag-card" draggable="true" id="c1" data-target="ai" onclick="handleCardClick(event, this)">👤 Nhận diện FaceID</div>
+        <div class="drag-card" draggable="true" id="c2" data-target="no-ai" onclick="handleCardClick(event, this)">🔢 Máy tính bỏ túi Casio fx-580</div>
+        <div class="drag-card" draggable="true" id="c3" data-target="ai" onclick="handleCardClick(event, this)">🌐 Google Dịch tự động</div>
+        <div class="drag-card" draggable="true" id="c4" data-target="no-ai" onclick="handleCardClick(event, this)">💨 Quạt máy bấm phím số 1, 2, 3</div>
+        <div class="drag-card" draggable="true" id="c5" data-target="ai" onclick="handleCardClick(event, this)">🎙️ Trợ lý ảo Siri / Google</div>
+        <div class="drag-card" draggable="true" id="c6" data-target="no-ai" onclick="handleCardClick(event, this)">⏰ Đồng hồ báo thức để bàn cơ học</div>
+        <div class="drag-card" draggable="true" id="c7" data-target="ai" onclick="handleCardClick(event, this)">📺 YouTube tự gợi ý video em thích</div>
+        <div class="drag-card" draggable="true" id="c8" data-target="no-ai" onclick="handleCardClick(event, this)">⌨️ Bàn phím máy tính thông thường</div>
+        <div class="drag-card" draggable="true" id="c9" data-target="ai" onclick="handleCardClick(event, this)">📧 Hộp thư Gmail lọc Spam tự động</div>
+        <div class="drag-card" draggable="true" id="c10" data-target="no-ai" onclick="handleCardClick(event, this)">🔦 Đèn pin bấm nút công tắc trượt</div>
+      </div>
+    </div>
+
+    <!-- 2 Hộp đích M1 -->
+    <div class="drop-grid-m1">
+      <div class="drop-bin bin-ai drop-zone" id="bin-ai" data-zone="ai" onclick="handleZoneClick('bin-ai')">
+        <div class="bin-header">
+          <span>🟢 HỘP: CÓ ỨNG DỤNG AI</span>
+          <span class="bin-count" id="count-ai">0 mục</span>
+        </div>
+        <div class="bin-content" id="content-ai"></div>
+      </div>
+
+      <div class="drop-bin bin-no-ai drop-zone" id="bin-no-ai" data-zone="no-ai" onclick="handleZoneClick('bin-no-ai')">
+        <div class="bin-header">
+          <span>🟠 HỘP: KHÔNG DÙNG AI</span>
+          <span class="bin-count" id="count-no-ai">0 mục</span>
+        </div>
+        <div class="bin-content" id="content-no-ai"></div>
+      </div>
+    </div>
+
+    <div class="footer-bar">
+      <button class="btn-reset" onclick="resetMission1()">🔄 Xếp lại từ đầu</button>
+      <button class="btn-action" id="btn-check-m1" onclick="checkMission1()">Kiểm tra kết quả ➔</button>
+    </div>
+  </div>
+
+  <!-- ==================== NHIỆM VỤ 2 ==================== -->
+  <div class="mission-section" id="mission-2">
+    <div class="inst-box">
+      👉 <strong>Cách chơi:</strong> Kéo từng thẻ "Hành động của con người" ở kho bên dưới thả vào ô trống bên cạnh mỗi "Công cụ AI" tương ứng. Sau đó ấn <strong>"Kiểm tra kết quả"</strong>!
+    </div>
+
+    <div class="result-alert" id="alert-m2"></div>
+
+    <!-- 5 Ô ghép đôi M2 -->
+    <div class="matching-slots">
+      <div class="slot-row">
+        <div class="slot-tool">1. Trợ lý ảo giọng nói (Siri, Google)</div>
+        <div class="slot-dropzone drop-zone" id="slot-1" data-accept="p1" onclick="handleZoneClick('slot-1')">
+          <span class="slot-placeholder">Thả hành động của con người vào đây...</span>
+        </div>
+      </div>
+
+      <div class="slot-row">
+        <div class="slot-tool">2. Camera quét nhận diện biển số xe</div>
+        <div class="slot-dropzone drop-zone" id="slot-2" data-accept="p2" onclick="handleZoneClick('slot-2')">
+          <span class="slot-placeholder">Thả hành động của con người vào đây...</span>
+        </div>
+      </div>
+
+      <div class="slot-row">
+        <div class="slot-tool">3. Xe tự lái nhận biết biển báo giao thông</div>
+        <div class="slot-dropzone drop-zone" id="slot-3" data-accept="p3" onclick="handleZoneClick('slot-3')">
+          <span class="slot-placeholder">Thả hành động của con người vào đây...</span>
+        </div>
+      </div>
+
+      <div class="slot-row">
+        <div class="slot-tool">4. Phần mềm dự báo thời tiết bằng AI</div>
+        <div class="slot-dropzone drop-zone" id="slot-4" data-accept="p4" onclick="handleZoneClick('slot-4')">
+          <span class="slot-placeholder">Thả hành động của con người vào đây...</span>
+        </div>
+      </div>
+
+      <div class="slot-row">
+        <div class="slot-tool">5. Ứng dụng vẽ tranh tự động bằng AI</div>
+        <div class="slot-dropzone drop-zone" id="slot-5" data-accept="p5" onclick="handleZoneClick('slot-5')">
+          <span class="slot-placeholder">Thả hành động của con người vào đây...</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Kho thẻ M2 -->
+    <div class="pool-box">
+      <div class="pool-label">
+        <span>KHO HÀNH ĐỘNG CỦA CON NGƯỜI (Kéo các thẻ này vào các ô phía trên):</span>
+      </div>
+      <div class="cards-flex drop-zone" id="pool-m2" data-zone="pool-m2" onclick="handleZoneClick('pool-m2')">
+        <div class="drag-card" draggable="true" id="m2-c1" data-pair="p1" onclick="handleCardClick(event, this)">
+          ➤ Con người thu âm & gắn nhãn hàng triệu tệp giọng nói mẫu để máy tính học
+        </div>
+        <div class="drag-card" draggable="true" id="m2-c2" data-pair="p2" onclick="handleCardClick(event, this)">
+          ➤ Kỹ sư lập trình thuật toán nhận diện chữ số & ký tự từ ảnh chụp
+        </div>
+        <div class="drag-card" draggable="true" id="m2-c3" data-pair="p3" onclick="handleCardClick(event, this)">
+          ➤ Con người chụp & nạp vào máy tính hàng ngàn hình ảnh biển báo dưới mọi thời tiết
+        </div>
+        <div class="drag-card" draggable="true" id="m2-c4" data-pair="p4" onclick="handleCardClick(event, this)">
+          ➤ Nhà khoa học thu thập dữ liệu khí tượng vệ tinh & lập mô hình tính toán
+        </div>
+        <div class="drag-card" draggable="true" id="m2-c5" data-pair="p5" onclick="handleCardClick(event, this)">
+          ➤ Con người số hóa hàng triệu bức tranh của các họa sĩ làm kho học tập cho máy
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bar">
+      <button class="btn-reset" onclick="resetMission2()">🔄 Ghép lại từ đầu</button>
+      <button class="btn-action" id="btn-check-m2" onclick="checkMission2()">Kiểm tra kết quả ➔</button>
+    </div>
+  </div>
+
+  <!-- Modal Congratulations -->
+  <div class="modal-overlay" id="modal-celebrate">
+    <div class="modal-box">
+      <div style="font-size: 60px; margin-bottom: 12px;">🏆</div>
+      <h3 style="font-size: 1.5rem; color: var(--primary-dark); margin-bottom: 8px;">CHÚC MỪNG EM ĐÃ HOÀN THÀNH XUẤT SẮC!</h3>
+      <p style="color: var(--text-muted); margin-bottom: 14px; line-height: 1.5;">
+        Em đã hoàn thành chính xác 100% cả 2 nhiệm vụ kéo thả và phân loại. Điểm số <strong id="modal-score" style="color: var(--success); font-size: 1.25rem;">10/10</strong> đã được ghi nhận vào hệ thống LMS!
+      </p>
+      <div id="modal-time-report" style="background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; padding: 10px 14px; border-radius: 10px; font-weight: 800; font-size: 0.95rem; margin-bottom: 20px;">
+        ⏱️ Thời gian đã tự động dừng lại!
+      </div>
+      <button class="btn-action" style="width: 100%; justify-content: center;" onclick="closeModal()">Đóng cửa sổ</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Safe Audio Synthesizer
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  function playSound(isWin) {
+    try {
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      const now = audioCtx.currentTime;
+
+      if (isWin) {
+        osc.frequency.setValueAtTime(523, now);
+        osc.frequency.setValueAtTime(659, now + 0.1);
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+        osc.start(now);
+        osc.stop(now + 0.35);
+      } else {
+        osc.frequency.setValueAtTime(220, now);
+        osc.frequency.setValueAtTime(170, now + 0.12);
+        gain.gain.setValueAtTime(0.25, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+        osc.start(now);
+        osc.stop(now + 0.3);
+      }
+    } catch(e) {}
+  }
+
+  // Timer
+  let timeLeft = 300;
+  let timerInterval = setInterval(() => {
+    if (timeLeft > 0) {
+      timeLeft--;
+      const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+      const s = Math.floor(timeLeft % 60).toString().padStart(2, '0');
+      const tEl = document.getElementById('timer-val');
+      if (tEl) tEl.innerText = `${m}:${s}`;
+    } else {
+      clearInterval(timerInterval);
+      const alertBox = document.getElementById('alert-m1');
+      if (alertBox) {
+        alertBox.style.display = 'block';
+        alertBox.className = 'result-alert warning';
+        alertBox.innerHTML = '⏰ <strong>Hết giờ!</strong> Hãy bấm "Xếp lại từ đầu" để thử lại nhé.';
+      }
+    }
+  }, 1000);
+
+  function stopTimer() {
+    if (timerInterval) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    }
+    const timerPill = document.getElementById('timer-val')?.parentElement;
+    if (timerPill) {
+      timerPill.style.background = '#dcfce7';
+      timerPill.style.color = '#166534';
+      timerPill.style.borderColor = '#86efac';
+      timerPill.title = 'Đã dừng thời gian khi hoàn thành cả 2 nhiệm vụ';
+    }
+  }
+
+  function switchMission(m) {
+    document.querySelectorAll('.m-tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.mission-section').forEach(s => s.classList.remove('active'));
+    const btn = document.getElementById(`tab-btn-${m}`);
+    const sec = document.getElementById(`mission-${m}`);
+    if (btn) btn.classList.add('active');
+    if (sec) sec.classList.add('active');
+  }
+
+  // ================= DRAG & DROP + CLICK-TO-MOVE HYBRID =================
+  let draggedEl = null;
+  let selectedTapCard = null;
+
+  function initDragAndDrop() {
+    // 1. Draggable cards
+    document.querySelectorAll('.drag-card').forEach(card => {
+      card.addEventListener('dragstart', (e) => {
+        draggedEl = card;
+        card.classList.add('dragging');
+        if (e.dataTransfer) {
+          e.dataTransfer.setData('text/plain', card.id);
+          e.dataTransfer.effectAllowed = 'move';
+        }
+      });
+
+      card.addEventListener('dragend', () => {
+        card.classList.remove('dragging');
+        draggedEl = null;
+        updateCounts();
+      });
+    });
+
+    // 2. Drop Zones
+    document.querySelectorAll('.drop-zone').forEach(zone => {
+      zone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        if (e.dataTransfer) e.dataTransfer.dropEffect = 'move';
+        zone.classList.add('drag-over');
+      });
+
+      zone.addEventListener('dragleave', (e) => {
+        if (!zone.contains(e.relatedTarget)) {
+          zone.classList.remove('drag-over');
+        }
+      });
+
+      zone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        zone.classList.remove('drag-over');
+        if (!draggedEl) return;
+        placeCardIntoZone(draggedEl, zone);
+        draggedEl = null;
+      });
+    });
+  }
+
+  // Click-to-move tap support for touchscreens / trackpads
+  function handleCardClick(e, card) {
+    e.stopPropagation();
+    if (selectedTapCard === card) {
+      card.classList.remove('selected-tap');
+      selectedTapCard = null;
+      return;
+    }
+    if (selectedTapCard) {
+      selectedTapCard.classList.remove('selected-tap');
+    }
+    selectedTapCard = card;
+    card.classList.add('selected-tap');
+  }
+
+  function handleZoneClick(zoneId) {
+    if (!selectedTapCard) return;
+    const zone = document.getElementById(zoneId);
+    if (zone) {
+      placeCardIntoZone(selectedTapCard, zone);
+      selectedTapCard.classList.remove('selected-tap');
+      selectedTapCard = null;
+    }
+  }
+
+  function placeCardIntoZone(card, zone) {
+    if (!card || !zone) return;
+
+    // Reset marks
+    card.classList.remove('is-correct', 'is-wrong', 'selected-tap');
+    const mark = card.querySelector('.status-mark');
+    if (mark) mark.remove();
+
+    // If moving out of a Mission 2 slot, restore that slot's placeholder
+    const oldSlot = card.closest('.slot-dropzone');
+    if (oldSlot && oldSlot !== zone) {
+      const oldPh = oldSlot.querySelector('.slot-placeholder');
+      if (oldPh) oldPh.style.display = 'block';
+    }
+
+    // If moving INTO a Mission 2 slot
+    if (zone.classList.contains('slot-dropzone')) {
+      const existing = zone.querySelector('.drag-card');
+      if (existing && existing !== card) {
+        // Send old card back to pool M2
+        const p2 = document.getElementById('pool-m2');
+        if (p2) p2.appendChild(existing);
+      }
+      const ph = zone.querySelector('.slot-placeholder');
+      if (ph) ph.style.display = 'none';
+      zone.appendChild(card);
+    } 
+    // If moving INTO Mission 1 bins
+    else if (zone.id === 'bin-ai') {
+      const cAi = document.getElementById('content-ai');
+      if (cAi) cAi.appendChild(card);
+    } else if (zone.id === 'bin-no-ai') {
+      const cNoAi = document.getElementById('content-no-ai');
+      if (cNoAi) cNoAi.appendChild(card);
+    } else {
+      zone.appendChild(card);
+    }
+
+    updateCounts();
+  }
+
+  function updateCounts() {
+    const aiCount = document.querySelectorAll('#content-ai .drag-card').length;
+    const noAiCount = document.querySelectorAll('#content-no-ai .drag-card').length;
+    const p1Count = document.querySelectorAll('#pool-m1 .drag-card').length;
+
+    const elAi = document.getElementById('count-ai');
+    const elNoAi = document.getElementById('count-no-ai');
+    const elP1 = document.getElementById('pool-m1-count');
+
+    if (elAi) elAi.innerText = `${aiCount} mục`;
+    if (elNoAi) elNoAi.innerText = `${noAiCount} mục`;
+    if (elP1) elP1.innerText = `${p1Count} thẻ còn lại`;
+  }
+
+  // ================= CHECK MISSION 1 =================
+  let m1Passed = false;
+  let m2Passed = false;
+
+  function checkMission1() {
+    const aiCards = document.querySelectorAll('#content-ai .drag-card');
+    const noAiCards = document.querySelectorAll('#content-no-ai .drag-card');
+    const totalPlaced = aiCards.length + noAiCards.length;
+    const alertBox = document.getElementById('alert-m1');
+    if (!alertBox) return;
+
+    alertBox.style.display = 'block';
+
+    if (totalPlaced < 10) {
+      alertBox.className = 'result-alert warning';
+      alertBox.innerHTML = `⚠️ <strong>Chưa hoàn thành:</strong> Em mới kéo ${totalPlaced}/10 thẻ. Hãy kéo hết tất cả các thẻ vào 2 hộp rồi bấm kiểm tra nhé!`;
+      playSound(false);
+      return;
+    }
+
+    let correctCount = 0;
+
+    aiCards.forEach(card => {
+      const mark = card.querySelector('.status-mark') || document.createElement('span');
+      mark.className = 'status-mark';
+      if (card.dataset.target === 'ai') {
+        correctCount++;
+        card.classList.remove('is-wrong');
+        card.classList.add('is-correct');
+        mark.innerText = ' ✔';
+        card.appendChild(mark);
+      } else {
+        card.classList.remove('is-correct');
+        card.classList.add('is-wrong');
+        mark.innerText = ' ✖';
+        card.appendChild(mark);
+      }
+    });
+
+    noAiCards.forEach(card => {
+      const mark = card.querySelector('.status-mark') || document.createElement('span');
+      mark.className = 'status-mark';
+      if (card.dataset.target === 'no-ai') {
+        correctCount++;
+        card.classList.remove('is-wrong');
+        card.classList.add('is-correct');
+        mark.innerText = ' ✔';
+        card.appendChild(mark);
+      } else {
+        card.classList.remove('is-correct');
+        card.classList.add('is-wrong');
+        mark.innerText = ' ✖';
+        card.appendChild(mark);
+      }
+    });
+
+    const scoreEl = document.getElementById('total-score');
+    if (scoreEl) scoreEl.innerText = correctCount;
+
+    const btn = document.getElementById('btn-check-m1');
+
+    if (correctCount === 10) {
+      m1Passed = true;
+      playSound(true);
+      alertBox.className = 'result-alert success';
+      if (!m2Passed) {
+        alertBox.innerHTML = `🎉 <strong>CHÍNH XÁC 10/10 MỤC!</strong> Em đã hoàn thành Nhiệm vụ 1. Hãy bấm sang <strong>Nhiệm vụ 2</strong> để ghép nối và hoàn thành bài nhé!`;
+      } else {
+        alertBox.innerHTML = `🎉 <strong>CHÍNH XÁC 10/10 MỤC!</strong> Em đã hoàn thành xuất sắc cả 2 nhiệm vụ!`;
+      }
+      if (btn) {
+        btn.innerText = '✔ Đã hoàn thành (10/10)';
+        btn.style.background = '#059669';
+      }
+      checkAllFinished();
+    } else {
+      m1Passed = false;
+      playSound(false);
+      const wrongCount = 10 - correctCount;
+      alertBox.className = 'result-alert warning';
+      alertBox.innerHTML = `❌ <strong>Kết quả: Đúng ${correctCount}/10 mục.</strong> Còn ${wrongCount} mục màu đỏ bị sai. Em hãy kéo lại các thẻ màu đỏ sang đúng hộp rồi ấn "Kiểm tra lại" nhé!`;
+      if (btn) btn.innerText = '🔄 Kiểm tra lại';
+    }
+  }
+
+  function resetMission1() {
+    const pool = document.getElementById('pool-m1');
+    if (!pool) return;
+    document.querySelectorAll('#content-ai .drag-card, #content-no-ai .drag-card').forEach(card => {
+      card.classList.remove('is-correct', 'is-wrong', 'selected-tap');
+      const mark = card.querySelector('.status-mark');
+      if (mark) mark.remove();
+      pool.appendChild(card);
+    });
+    const aBox = document.getElementById('alert-m1');
+    if (aBox) aBox.style.display = 'none';
+    const btn = document.getElementById('btn-check-m1');
+    if (btn) {
+      btn.innerText = 'Kiểm tra kết quả ➔';
+      btn.style.background = 'var(--primary)';
+    }
+    updateCounts();
+  }
+
+  // ================= CHECK MISSION 2 =================
+  function checkMission2() {
+    const alertBox = document.getElementById('alert-m2');
+    if (!alertBox) return;
+    alertBox.style.display = 'block';
+
+    const slots = [
+      document.getElementById('slot-1'),
+      document.getElementById('slot-2'),
+      document.getElementById('slot-3'),
+      document.getElementById('slot-4'),
+      document.getElementById('slot-5')
+    ];
+
+    let placedCount = 0;
+    slots.forEach(s => {
+      if (s && s.querySelector('.drag-card')) placedCount++;
+    });
+
+    if (placedCount < 5) {
+      alertBox.className = 'result-alert warning';
+      alertBox.innerHTML = `⚠️ <strong>Chưa hoàn thành:</strong> Em mới ghép ${placedCount}/5 ô. Hãy kéo đủ 5 thẻ vào các ô trống rồi ấn kiểm tra nhé!`;
+      playSound(false);
+      return;
+    }
+
+    let correctCount = 0;
+    slots.forEach(slot => {
+      if (!slot) return;
+      const card = slot.querySelector('.drag-card');
+      const expectedPair = slot.dataset.accept;
+      if (!card) return;
+
+      const mark = card.querySelector('.status-mark') || document.createElement('span');
+      mark.className = 'status-mark';
+
+      if (card.dataset.pair === expectedPair) {
+        correctCount++;
+        card.classList.remove('is-wrong');
+        card.classList.add('is-correct');
+        mark.innerText = ' ✔';
+        card.appendChild(mark);
+      } else {
+        card.classList.remove('is-correct');
+        card.classList.add('is-wrong');
+        mark.innerText = ' ✖';
+        card.appendChild(mark);
+      }
+    });
+
+    const btn = document.getElementById('btn-check-m2');
+
+    if (correctCount === 5) {
+      m2Passed = true;
+      playSound(true);
+      alertBox.className = 'result-alert success';
+      if (!m1Passed) {
+        alertBox.innerHTML = `🎉 <strong>XUẤT SẮC 5/5 CẶP!</strong> Em đã hoàn thành Nhiệm vụ 2. Hãy hoàn thành nốt <strong>Nhiệm vụ 1</strong> để hoàn thành bài nhé!`;
+      } else {
+        alertBox.innerHTML = `🎉 <strong>XUẤT SẮC 5/5 CẶP!</strong> Em đã hoàn thành xuất sắc cả 2 nhiệm vụ!`;
+      }
+      if (btn) {
+        btn.innerText = '✔ Đã hoàn thành (5/5)';
+        btn.style.background = '#059669';
+      }
+      checkAllFinished();
+    } else {
+      m2Passed = false;
+      playSound(false);
+      const wrongCount = 5 - correctCount;
+      alertBox.className = 'result-alert warning';
+      alertBox.innerHTML = `❌ <strong>Kết quả: Đúng ${correctCount}/5 cặp.</strong> Còn ${wrongCount} ô màu đỏ chưa đúng. Em hãy kéo thẻ bị sai ra để đổi chỗ và ấn "Kiểm tra lại"!`;
+      if (btn) btn.innerText = '🔄 Kiểm tra lại';
+    }
+  }
+
+  function resetMission2() {
+    const pool = document.getElementById('pool-m2');
+    if (!pool) return;
+    document.querySelectorAll('.slot-dropzone .drag-card').forEach(card => {
+      card.classList.remove('is-correct', 'is-wrong', 'selected-tap');
+      const mark = card.querySelector('.status-mark');
+      if (mark) mark.remove();
+      pool.appendChild(card);
+    });
+    document.querySelectorAll('.slot-placeholder').forEach(ph => ph.style.display = 'block');
+    const aBox = document.getElementById('alert-m2');
+    if (aBox) aBox.style.display = 'none';
+    const btn = document.getElementById('btn-check-m2');
+    if (btn) {
+      btn.innerText = 'Kiểm tra kết quả ➔';
+      btn.style.background = 'var(--primary)';
+    }
+  }
+
+  function checkAllFinished() {
+    if (m1Passed && m2Passed) {
+      stopTimer(); // Dừng đồng hồ đếm ngược ngay lập tức
+      const timeSpent = 300 - timeLeft;
+      const mSpent = Math.floor(timeSpent / 60);
+      const sSpent = timeSpent % 60;
+
+      const timeReport = document.getElementById('modal-time-report');
+      if (timeReport) {
+        timeReport.innerHTML = `⏱️ <strong>Thời gian hoàn thành:</strong> ${mSpent} phút ${sSpent} giây <span style="color:#059669; font-weight:800;">(Đồng hồ đã tự động dừng lại ✔)</span>`;
+      }
+
+      const modal = document.getElementById('modal-celebrate');
+      if (modal) modal.style.display = 'flex';
+      notifyLMS('GAMIFICATION_COMPLETE', { score: 10, passed: true, timeSpentSeconds: timeSpent });
+    }
+  }
+
+  function closeModal() {
+    const modal = document.getElementById('modal-celebrate');
+    if (modal) modal.style.display = 'none';
+  }
+
+  function notifyLMS(type, payload) {
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ source: 'LMS_GAMIFICATION', type, payload }, '*');
+    }
+  }
+
+  // Shuffle M2 cards on startup
+  function shuffleM2() {
+    const pool = document.getElementById('pool-m2');
+    if (!pool) return;
+    const cards = Array.from(pool.children);
+    cards.sort(() => Math.random() - 0.5);
+    cards.forEach(c => pool.appendChild(c));
+  }
+
+  // Initialize
+  initDragAndDrop();
+  shuffleM2();
+  updateCounts();
+</script>
+
+</body>
+</html>
