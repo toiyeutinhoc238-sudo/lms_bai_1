@@ -439,12 +439,12 @@
     <div class="timeline-track" title="Chế độ SCORM: Khóa thanh tua lướt">
       <div class="timeline-fill" id="timeline-fill"></div>
       
-      <!-- Checkpoint 1 (at ~28% - 00:55) -->
-      <div class="checkpoint-flag" id="flag-1" style="left: 28%;" title="Neo chặn 1: AI do ai tạo ra?">1</div>
-      <!-- Checkpoint 2 (at ~58% - 01:55) -->
-      <div class="checkpoint-flag" id="flag-2" style="left: 58%;" title="Neo chặn 2: Cách con người dạy AI">2</div>
-      <!-- Checkpoint 3 (at ~88% - 02:55) -->
-      <div class="checkpoint-flag" id="flag-3" style="left: 88%;" title="Neo chặn 3: Con người làm chủ & quyết định">3</div>
+      <!-- Checkpoint 1 (at 01:18 - 39%) -->
+      <div class="checkpoint-flag" id="flag-1" style="left: 39%;" title="Neo chặn 1 (01:18): Vì sao gọi là Nhân tạo?">1</div>
+      <!-- Checkpoint 2 (at 01:41 - 51%) -->
+      <div class="checkpoint-flag" id="flag-2" style="left: 51%;" title="Neo chặn 2 (01:41): Ví dụ AI hoạt động ngầm">2</div>
+      <!-- Checkpoint 3 (at 02:58 - 90%) -->
+      <div class="checkpoint-flag" id="flag-3" style="left: 90%;" title="Neo chặn 3 (02:58): Vai trò người bạn 'Trí'">3</div>
     </div>
 
     <div class="score-indicator" id="score-indicator">Điểm: 0/30</div>
@@ -494,45 +494,45 @@
   let userScore = 0;
   let activeCheckpoint = null;
 
-  // 3 Checkpoints calibrated for the 03:18 (198s) video
+  // 3 Checkpoints được hiệu chỉnh chính xác 100% theo nội dung và mốc thời gian của Video (03:18)
   const checkpoints = [
     {
       id: 1,
-      triggerTime: 55, // 00:55
-      tag: "📍 NEO CHẶN 1 (00:55): BẢN CHẤT CỦA AI",
-      q: "Theo video bài học, Trí tuệ nhân tạo (AI) có thể tự sinh ra trong tự nhiên hay không?",
+      triggerTime: 78, // 01:18 (Ngay sau khi cô Linh Thái giải thích: "gọi là nhân tạo bởi vì nó được tạo ra bởi con người bằng công nghệ")
+      tag: "📍 NEO CHẶN 1 (01:18): BẢN CHẤT CỦA 'TRÍ TUỆ NHÂN TẠO'",
+      q: "Theo lời cô Linh Thái trong video, vì sao thuật ngữ này lại được gọi là Trí tuệ 'NHÂN TẠO' (Artificial)?",
       options: [
-        { text: "A. Có thể, AI tự sinh ra giống muôn loài thú và cây cỏ trong tự nhiên", correct: false },
-        { text: "B. Không thể, AI hoàn toàn do con người thu thập dữ liệu, lập trình thuật toán và huấn luyện máy tính", correct: true },
-        { text: "C. AI do các robot ngoài vũ trụ bay đến Trái Đất tạo ra", correct: false }
+        { text: "A. Vì nó tự sinh ra và tự tiến hóa trong tự nhiên giống muôn loài thú, cây cỏ", correct: false },
+        { text: "B. Bởi vì nó được tạo ra bởi con người, bằng cách sử dụng máy tính và công nghệ", correct: true },
+        { text: "C. Vì do các siêu máy tính tự sản sinh ra nhau từ thời cổ đại", correct: false }
       ],
-      feedback: "Chính xác! Trí tuệ nhân tạo (AI) hoàn toàn do con người sáng chế và điều khiển, không tự sinh ra.",
+      feedback: "Chính xác tuyệt đối! Đúng như cô Linh Thái nhấn mạnh: Chúng ta gọi là 'Nhân tạo' bởi vì nó được tạo ra bởi con người, bằng cách sử dụng công nghệ!",
       passed: false
     },
     {
       id: 2,
-      triggerTime: 115, // 01:55
-      tag: "📍 NEO CHẶN 2 (01:55): QUY TRÌNH CON NGƯỜI DẠY AI",
-      q: "Để máy tính có thể học được và trở nên thông minh (Machine Learning), con người bắt buộc phải làm gì?",
+      triggerTime: 101, // 01:41 (Ngay sau khi kết thúc các ví dụ thực tiễn: Siri, Spotify, Shopee gợi ý món đồ)
+      tag: "📍 NEO CHẶN 2 (01:41): CÁC ỨNG DỤNG AI TRONG ĐỜI SỐNG",
+      q: "Theo video, ví dụ nào sau đây thể hiện việc AI đang 'hoạt động ngầm' để hỗ trợ em trong cuộc sống hằng ngày?",
       options: [
-        { text: "A. Cung cấp một khối lượng dữ liệu khổng lồ (Data) và thuật toán để máy tính học tập", correct: true },
-        { text: "B. Chỉ cần cắm sạc pin điện thoại và để máy tính tự suy nghĩ", correct: false },
-        { text: "C. Không cần làm gì vì máy tính thông minh hơn con người từ trước", correct: false }
+        { text: "A. Chiếc quạt máy cơ học bấm nút số 1, 2, 3 để quay cánh quạt", correct: false },
+        { text: "B. Spotify đề xuất bài hát em thích hoặc Shopee gợi ý món đồ dựa trên lịch sử mua sắm", correct: true },
+        { text: "C. Chiếc đồng hồ báo thức cơ học để bàn chạy bằng bánh răng kim loại", correct: false }
       ],
-      feedback: "Rất chuẩn! Dữ liệu (Data) do con người thu thập và thuật toán là nền móng cốt lõi để dạy AI.",
+      feedback: "Rất chuẩn! Trong video, cô Linh Thái đã nêu rõ: Spotify đề xuất bài hát và Shopee gợi ý đồ dùng dựa vào lịch sử của người dùng là ví dụ tiêu biểu của AI hoạt động ngầm!",
       passed: false
     },
     {
       id: 3,
-      triggerTime: 175, // 02:55
-      tag: "📍 NEO CHẶN 3 (02:55): QUYỀN QUYẾT ĐỊNH & TRÁCH NHIỆM",
-      q: "Khi ứng dụng các công cụ AI trong học tập và đời sống, ai là người đưa ra quyết định cuối cùng và chịu trách nhiệm?",
+      triggerTime: 178, // 02:58 (Ngay sau khi giải thích về bạn robot 'Trí' - người bạn tốt hỗ trợ con người)
+      tag: "📍 NEO CHẶN 3 (02:58): BẠN ROBOT 'TRÍ' VÀ VAI TRÒ CỦA AI",
+      q: "Qua hình tượng người bạn robot tên 'Trí' trong video, em hiểu vai trò cốt lõi của AI đối với con người là gì?",
       options: [
-        { text: "A. Máy móc và phần mềm AI tự chịu trách nhiệm về mọi kết quả", correct: false },
-        { text: "B. Con người luôn là người giám sát, đưa ra quyết định cuối cùng và chịu trách nhiệm", correct: true },
-        { text: "C. Không có ai phải chịu trách nhiệm cả", correct: false }
+        { text: "A. AI sẽ thay thế hoàn toàn con người và tự quyết định mọi thứ trong cuộc sống", correct: false },
+        { text: "B. AI là công cụ hỗ trợ do con người tạo ra, đóng vai trò như một người bạn đồng hành giúp cuộc sống con người trở nên dễ dàng hơn", correct: true },
+        { text: "C. AI tự sinh ra và không có bất kỳ mối liên hệ nào với con người", correct: false }
       ],
-      feedback: "Xuất sắc! AI chỉ là công cụ hỗ trợ, con người luôn nắm quyền quyết định và chịu trách nhiệm giải trình.",
+      feedback: "Xuất sắc! Hình tượng bạn robot 'Trí' do con người tạo ra để làm bạn đồng hành, hỗ trợ công việc và học tập. Con người luôn là chủ thể tạo ra và làm chủ công nghệ AI!",
       passed: false
     }
   ];
