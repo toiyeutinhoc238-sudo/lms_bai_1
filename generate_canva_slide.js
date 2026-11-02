@@ -613,3 +613,4 @@ pres.writeFile({ fileName: outputPath })
     console.error(`Error generating PPTX:`, err);
     process.exit(1);
   });
+
