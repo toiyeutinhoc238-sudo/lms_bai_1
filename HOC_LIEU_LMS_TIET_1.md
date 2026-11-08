@@ -69,7 +69,8 @@
 # PHẦN 2: KỊCH BẢN VIDEO HỌC TẬP TƯƠNG TÁC (HOẠT ĐỘNG 2.1 - 20 PHÚT)
 **Chuẩn công nghệ:** SCORM 1.2 / 2004 hoặc H5P Interactive Video / Edpuzzle  
 **Thời lượng video:** 5 phút 30 giây (Phù hợp tâm sinh lý lứa tuổi học sinh lớp 6)  
-**Tiêu chí hoàn thành (Completion Rule):** Xem tối thiểu 100% thời lượng video, trả lời đúng các câu hỏi neo chặn (Pop-up checkpoints) đạt từ 80% điểm trở lên. Không cho phép tua lướt (Disable skipping).
+**Tiêu chí hoàn thành (Completion Rule):** Xem tối thiểu 100% thời lượng video, trả lời đúng các câu hỏi neo chặn (Pop-up checkpoints) đạt từ 80% điểm trở lên. Không cho phép tua lướt (Disable skipping).  
+**Link video gốc (YouTube):** [https://youtu.be/M5xe04_4YrU?si=zC9vQX8oAFUa5d7v](https://youtu.be/M5xe04_4YrU?si=zC9vQX8oAFUa5d7v)
 
 ---
 
